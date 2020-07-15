@@ -1,25 +1,47 @@
 {
   "compilerOptions": {
+    "outDir": "build",
+    "module": "esnext",
     "target": "es5",
     "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
+      "es5",
+      "es6",
+      "dom"
     ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./typings"
+  ],
+    "sourceMap": true,
     "allowJs": true,
-    "skipLibCheck": true,
+    "jsx": "preserve",
+    "moduleResolution": "node",
+    "rootDir": "./src",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": false,
+    "isolatedModules": true,
+    "baseUrl": "./src",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
-    "moduleResolution": "node",
+    "skipLibCheck": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
   },
   "include": [
-    "src"
+    "src", "./typings/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "config"
   ]
 }
