@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Secure",
+  "name": "Secure",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,6 +18,6 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "https://fir-7e260.web.app/",
   "display": "standalone"
 }

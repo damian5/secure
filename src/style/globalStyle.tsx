@@ -1,5 +1,4 @@
 import { createGlobalStyle, css } from 'styled-components';
-import { colorsPalette } from 'constant/colors';
 import GothamWoff from 'assets/fonts/GothamPro.woff';
 import GothamWoff2 from 'assets/fonts/GothamPro.woff2';
 import GothamTtf from 'assets/fonts/GothamPro.ttf';

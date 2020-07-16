@@ -22,7 +22,7 @@ const ThemeContextProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem("theme", themeMode);
-  }, [themeMode]);
+  }, [themeMode, localStorage]);
 
   const setNewTheme = () => {
     setThemeMode(prevState => {
