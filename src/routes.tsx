@@ -1,4 +1,4 @@
-import React, { lazy, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import StyledApp from 'style/styledApp';
 import BottomBar from 'components/shared/BottomBar';
