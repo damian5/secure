@@ -38,7 +38,7 @@ const Routes = () => {
   useEffect(() => {
     isInitialized()
     .then(value => setFirebaseInitialized(value))
-  }, [])
+  }, [isInitialized])
 
   return isFirebaseInitialized !== false ? (
       <Switch>

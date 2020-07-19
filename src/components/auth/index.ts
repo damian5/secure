@@ -1,4 +1,4 @@
-import SignUp from './signUp'
-import SignIn from './signIn'
+import SignUp from './SignUp/signUp'
+import SignIn from './SignIn/signIn'
 
 export { SignUp, SignIn };

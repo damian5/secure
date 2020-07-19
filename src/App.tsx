@@ -8,9 +8,9 @@ const App = () => {
   return (
     <CssBaseline>
       <ThemeContextProvider>
-        <Router>
-          <Routes/>
-        </Router>
+          <Router>
+            <Routes/>
+          </Router>
       </ThemeContextProvider>
     </CssBaseline>
   );

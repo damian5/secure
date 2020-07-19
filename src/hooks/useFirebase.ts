@@ -1,4 +1,3 @@
-import React from 'react';
 import { auth, persistentUserData } from 'helpers/firebaseConfig';
 
 interface UseFirebaseProps {
