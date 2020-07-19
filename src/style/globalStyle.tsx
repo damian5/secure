@@ -1,5 +1,4 @@
 import { createGlobalStyle, css } from 'styled-components';
-import { colorsPalette } from 'constant/colors';
 import GothamWoff from 'assets/fonts/GothamPro.woff';
 import GothamWoff2 from 'assets/fonts/GothamPro.woff2';
 import GothamTtf from 'assets/fonts/GothamPro.ttf';
@@ -40,6 +39,11 @@ const GlobalStyle = createGlobalStyle<{theme: any}>`
       font-family: 'Gotham';
       font-weight: 400;
       font-style: normal;
+    }
+
+    p {
+      font-weight: 600;
+      color: ${theme.colors.primary};
     }
 
     h1, h2, h3, h4, h5 {

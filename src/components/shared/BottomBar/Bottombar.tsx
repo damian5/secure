@@ -8,7 +8,7 @@ import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import SettingsIcon from '@material-ui/icons/Settings';
 
 const BottomBar = () => {
-  const [value, setValue] = useState<string>('passwords');
+  const [value, setValue] = useState<string>('/passwords');
 
   return (
     <BottomNavigation value={value} showLabels onChange={(event, newValue) => {
