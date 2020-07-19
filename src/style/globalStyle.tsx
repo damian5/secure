@@ -41,6 +41,11 @@ const GlobalStyle = createGlobalStyle<{theme: any}>`
       font-style: normal;
     }
 
+    p {
+      font-weight: 600;
+      color: ${theme.colors.primary};
+    }
+
     h1, h2, h3, h4, h5 {
       font-weight: 600;
       color: ${theme.colors.primary};

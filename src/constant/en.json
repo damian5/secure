@@ -1,0 +1,13 @@
+{
+  "auth": {
+    "email": "Email",
+    "password": "Passoword",
+    "signIn": "Sign In!"
+  },
+  "validation": {
+    "required": "This field is required!",
+    "min": "The password must be at least 6 characters long!",
+    "invalidEmail": "This email doesn't seem valid",
+    "passwordMustMatch": "Passwords must match"
+  }
+}
