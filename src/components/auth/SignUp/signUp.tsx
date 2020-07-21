@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from 'react-final-form'
+import { Form } from 'react-final-form';
 import { useFirebaseAuth } from 'hooks/useFirebaseAuth';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom'
 import { WrapForm } from '../styles';
@@ -14,7 +14,6 @@ const SignUp = (props: RouteComponentProps) => {
   const { required, invalidEmail, passwordMustMatch } = validationTexts;
 
   const handleCreateUser = async ({userName, email, password}: Record<any, string>) => {
-    console.log('handle', {userName, email, password})
     await createUser(userName, email, password)
     props.history.push('/passwords')
   }
@@ -29,26 +28,30 @@ const SignUp = (props: RouteComponentProps) => {
   return(
     <Form
       onSubmit={(values) => handleCreateUser(values)}
-      // validate={validateFormValues(schema)}
+      validate={validateFormValues(schema)}
       render={({ handleSubmit }) => (
         <WrapForm onSubmit={handleSubmit}>
           <h2>Sign Up</h2>
           <TextField
+            showError
             type="text"
             name="userName"
             label="Name"
           />
           <TextField
+            showError
             type="email"
             name="email"
             label="Email"
           />
           <TextField
+            showError
             type="password"
             name="password"
             label="password"
           />
           <TextField
+            showError
             type="password"
             name="repeatPassword"
             label="Repeat password"

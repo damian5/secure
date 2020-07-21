@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ManagePasswordWrapper = styled.div<{isOpen}>`
+export const ManageSiteWrapper = styled.div<{isOpen}>`
   height: 100%;
   z-index: 10;
   background: white;

@@ -6,20 +6,22 @@ interface TextFieldProps {
   type: string;
   name: string;
   placeholder?: string;
+  showError?: boolean;
 }
 
 const TextField = ({
   label,
   placeholder,
   type,
-  name
+  name,
+  showError,
 }: TextFieldProps) => (
   <Field name={name}>
     {({ input, meta }) => (
       <div>
         {label && <label>{label}</label>}
         <input {...input} type={type} placeholder={placeholder} />
-        {(meta.error || meta.submitError) &&
+        {showError && (meta.error || meta.submitError) &&
           meta.touched && <span>{meta.error || meta.submitError}</span>}
       </div>
     )}

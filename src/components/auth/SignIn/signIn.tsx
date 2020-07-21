@@ -36,11 +36,13 @@ const SignIn = (props: RouteComponentProps) => {
         <WrapForm onSubmit={handleSubmit}>
           <h2>Sign In</h2>
           <TextField
+            showError
             type="email"
             name="email"
             label="Email"
           />
           <TextField
+            showError
             type="password"
             name="password"
             label="Password"
