@@ -1,6 +1,7 @@
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import 'firebase/database';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDSYQ7k89eZPfgiNo0D_sBzpDOxZryHL9w",
@@ -14,6 +15,8 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-export const DB = firebase.firestore();
+export const db = firebase.firestore();
+export const firestore = firebase.firestore;
+export const bucket = firebase.database();
 export const auth = firebase.auth();
 export const persistentUserData = firebase.auth.Auth.Persistence.SESSION;

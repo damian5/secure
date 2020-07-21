@@ -1,6 +1,7 @@
 import { auth, persistentUserData } from 'helpers/firebaseConfig';
+import { useFirebaseDB } from './useFirebaseDB';
 
-interface UseFirebaseProps {
+interface useFirebaseAuthProps {
   createUser: (userName: string, email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   currentUser: () => firebase.User;
@@ -8,14 +9,18 @@ interface UseFirebaseProps {
   isInitialized: () => Promise<unknown>
 }
 
-export const useFirebase = (): UseFirebaseProps => {
+export const useFirebaseAuth = (): useFirebaseAuthProps => {
+
+  const { writeUserData } = useFirebaseDB()
 
   const createUser = async (userName: string, email: string, password: string) => {
     try {
-      await auth.createUserWithEmailAndPassword(email, password)
+      await auth.createUserWithEmailAndPassword(email, password);
+      await writeUserData(auth.currentUser.uid, userName);
+
       return auth.currentUser.updateProfile({
         displayName: userName
-      })
+      });
     } catch (error) {
       return alert(error.message)
     }
