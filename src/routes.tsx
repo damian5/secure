@@ -7,7 +7,7 @@ import Passwords from "./components/Passwords"
 import Settings  from "./components/Settings";
 // TO-DO: put both SignUp and SignIn into their index.ts
 import {SignUp, SignIn} from 'components/auth'
-import { useFirebase } from 'hooks/useFirebase';
+import { useFirebaseAuth } from 'hooks/useFirebaseAuth';
 import Loader from 'components/shared/Loader';
 
 const wrapWithNav = (component: JSX.Element) => {
@@ -22,7 +22,7 @@ const wrapWithNav = (component: JSX.Element) => {
 }
 
 const PrivateRoute = ({children, path}) => {
-  const { currentUser } = useFirebase()
+  const { currentUser } = useFirebaseAuth()
   if (!currentUser()) {
     return <Redirect to="/signin"/>
   } else {
@@ -33,7 +33,7 @@ const PrivateRoute = ({children, path}) => {
 const Routes = () => {
 
   const [isFirebaseInitialized, setFirebaseInitialized] = useState<any>(false);
-  const { isInitialized } = useFirebase();
+  const { isInitialized } = useFirebaseAuth();
 
   useEffect(() => {
     isInitialized()
