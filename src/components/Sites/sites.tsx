@@ -11,13 +11,13 @@ interface ModalProps {
 }
 
 const Sites = () => {
-  const { getUserData, loading } = useFirebaseDB()
-  const [data, setData] = useState<UserData | null>(null);
+  const { getSites, loading } = useFirebaseDB()
+  const [sites, setSites] = useState<Site[] | null>(null);
   const [modalInfo, setModalInfo] = useState<ModalProps>({ isOpen: false, site: null })
 
   const fetchData = useCallback(() => {
-    getUserData().then((result: UserData) => setData(result))
-  }, [getUserData]);
+    getSites().then((result: Site[]) => setSites(result))
+  }, [getSites]);
 
   useEffect(() => {
     let mounted: boolean = true
@@ -40,8 +40,8 @@ const Sites = () => {
     if(loading) {
       JSXElement = <CircularProgress />;
     } else {
-      if(data?.sites.length > 0) {
-        JSXElement = data?.sites.map((site: Site, i: number) =>
+      if(sites?.length > 0) {
+        JSXElement = sites?.map((site: Site, i: number) =>
           <div
             onClick={(e) => handleSiteClick(e, site)}
             key={i}
