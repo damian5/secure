@@ -2,7 +2,7 @@ import React from 'react';
 import { Form } from 'react-final-form'
 import { WrapForm } from '../styles';
 import TextField from 'components/shared/TextField';
-import { useFirebase } from 'hooks/useFirebase'
+import { useFirebaseAuth } from 'hooks/useFirebaseAuth'
 import { withRouter, Link, RouteComponentProps } from 'react-router-dom'
 import * as Yup from 'yup';
 import { validation as validationTexts } from 'constant/en.json';
@@ -12,7 +12,7 @@ const SignIn = (props: RouteComponentProps) => {
   // TO-DO: put this sleep in another file and build a loadin/fetching state
   const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
-  const { signIn, currentUser } = useFirebase();
+  const { signIn, currentUser } = useFirebaseAuth();
   const { required, invalidEmail } = validationTexts;
 
   const handleSignIn = async ({ email, password }: Record<any, string>) => {
@@ -36,11 +36,13 @@ const SignIn = (props: RouteComponentProps) => {
         <WrapForm onSubmit={handleSubmit}>
           <h2>Sign In</h2>
           <TextField
+            showError
             type="email"
             name="email"
             label="Email"
           />
           <TextField
+            showError
             type="password"
             name="password"
             label="Password"

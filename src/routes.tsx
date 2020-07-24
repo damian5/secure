@@ -3,11 +3,11 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import StyledApp from 'style/styledApp';
 import BottomBar from 'components/shared/BottomBar';
 import MainContanier from 'components/layout/MainContainer';
-import Passwords from "./components/Passwords"
+import Sites from "./components/Sites"
 import Settings  from "./components/Settings";
 // TO-DO: put both SignUp and SignIn into their index.ts
 import {SignUp, SignIn} from 'components/auth'
-import { useFirebase } from 'hooks/useFirebase';
+import { useFirebaseAuth } from 'hooks/useFirebaseAuth';
 import Loader from 'components/shared/Loader';
 
 const wrapWithNav = (component: JSX.Element) => {
@@ -22,7 +22,7 @@ const wrapWithNav = (component: JSX.Element) => {
 }
 
 const PrivateRoute = ({children, path}) => {
-  const { currentUser } = useFirebase()
+  const { currentUser } = useFirebaseAuth()
   if (!currentUser()) {
     return <Redirect to="/signin"/>
   } else {
@@ -33,7 +33,7 @@ const PrivateRoute = ({children, path}) => {
 const Routes = () => {
 
   const [isFirebaseInitialized, setFirebaseInitialized] = useState<any>(false);
-  const { isInitialized } = useFirebase();
+  const { isInitialized } = useFirebaseAuth();
 
   useEffect(() => {
     isInitialized()
@@ -46,7 +46,7 @@ const Routes = () => {
         <Route exact path="/signup" render={() => <SignUp />} />
         <Route exact path="/signin" render={() => <SignIn />} />
 
-        <PrivateRoute path="/passwords">{wrapWithNav(<Passwords />)}</PrivateRoute>
+        <PrivateRoute path="/passwords">{wrapWithNav(<Sites />)}</PrivateRoute>
         <PrivateRoute path="/settings">{wrapWithNav(<Settings />)}</PrivateRoute>
         <Route render={() => <div>Page not found</div>} />
       </Switch>

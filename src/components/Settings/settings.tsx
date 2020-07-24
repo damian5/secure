@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { ThemeContext } from 'hooks/useTheme';
-import { useFirebase } from 'hooks/useFirebase';
+import { useFirebaseAuth } from 'hooks/useFirebaseAuth';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 const Settings = (props: RouteComponentProps) => {
   const { themeMode, setNewTheme } = useContext(ThemeContext);
-  const { signOut } = useFirebase()
+  const { signOut } = useFirebaseAuth()
 
   const handleSignOut = async () => {
     await signOut();

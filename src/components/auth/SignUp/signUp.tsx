@@ -1,6 +1,6 @@
 import React from 'react';
-import { Form } from 'react-final-form'
-import { useFirebase } from 'hooks/useFirebase';
+import { Form } from 'react-final-form';
+import { useFirebaseAuth } from 'hooks/useFirebaseAuth';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom'
 import { WrapForm } from '../styles';
 import TextField from 'components/shared/TextField';
@@ -10,11 +10,10 @@ import { validateFormValues } from 'helpers/formValidation';
 
 const SignUp = (props: RouteComponentProps) => {
 
-  const { createUser } = useFirebase();
+  const { createUser } = useFirebaseAuth();
   const { required, invalidEmail, passwordMustMatch } = validationTexts;
 
-  const handleCreateUser = async (values: Record<string, string>) => {
-    const { userName, email, password } = values
+  const handleCreateUser = async ({userName, email, password}: Record<any, string>) => {
     await createUser(userName, email, password)
     props.history.push('/passwords')
   }
@@ -23,7 +22,7 @@ const SignUp = (props: RouteComponentProps) => {
     name: Yup.string().required(required),
     email: Yup.string().required(required).email(invalidEmail),
     password: Yup.string().required(required),
-    repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], passwordMustMatch)
+    repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], passwordMustMatch).required()
   })
 
   return(
@@ -34,21 +33,25 @@ const SignUp = (props: RouteComponentProps) => {
         <WrapForm onSubmit={handleSubmit}>
           <h2>Sign Up</h2>
           <TextField
+            showError
             type="text"
-            name="name"
+            name="userName"
             label="Name"
           />
           <TextField
+            showError
             type="email"
             name="email"
             label="Email"
           />
           <TextField
+            showError
             type="password"
-            name="Password"
+            name="password"
             label="password"
           />
           <TextField
+            showError
             type="password"
             name="repeatPassword"
             label="Repeat password"
