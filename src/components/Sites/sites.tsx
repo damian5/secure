@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useFirebaseDB } from 'hooks/useFirebaseDB';
 import { CircularProgress } from '@material-ui/core';
-import { Site, UserData } from 'interfaces/dataAPI';
+import { Site } from 'interfaces/dataAPI';
 import { SitesWrapper } from './styles';
 import ManageSite from 'components/Sites/ManageSite';
 

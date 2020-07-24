@@ -41,7 +41,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "rimraf ./build && ENERATE_SOURCEMAP=false react-scripts build && rimraf ./build/**/*.map",
     "lint": "tsc --noEmit && eslint \"*/**/*.{js,ts,tsx}\" --fix-dry-run --quiet",
     "test": "react-scripts test --watchAll=false --modulePaths=src --silent",
     "eject": "react-scripts eject",
