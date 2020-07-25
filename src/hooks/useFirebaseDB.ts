@@ -8,6 +8,7 @@ interface useFirebaseAuthProps {
   addNewSite: (siteName: string, userName: string, password: string) => Promise<void>;
   getSites: () => firebase.firestore.DocumentData;
   removeSite: (siteId: string) => Promise<void>;
+  editSite: (siteName: string, userName: string, password: string, siteId: string) => Promise<void>;
   loading: boolean;
 }
 
@@ -22,7 +23,7 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
     } as UserData).then(() => {
       console.log('user entry created');
     });
-  }
+  };
 
   const addNewSite = async (siteName: string, userName: string, password: string) => {
     try {
@@ -41,7 +42,7 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const removeSite = async (siteId: string) => {
     try {
@@ -56,7 +57,7 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const getSites = async () => {
     try {
@@ -69,7 +70,7 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
           password: decrypt(site.password.toString())
         };
       });
-      return sitesWithDecryptedPass
+      return sitesWithDecryptedPass;
     } catch (error) {
       return error;
     } finally {
@@ -77,5 +78,42 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
     }
   }
 
-  return { writeUserData, addNewSite, getSites, removeSite, loading }
+  const editSite = async (
+    siteName: string,
+    userName: string,
+    password: string,
+    siteId: string
+  ) => {
+    try {
+      setLoading(true);
+      const result = db.collection("users").doc(auth.currentUser.uid).get();
+      const sites = (await result).data().sites as Site[];
+      // This is not the most optimal thing, but Firebase does not support updates
+      // on single array elements.
+      const updatedSites = sites.map(site => (
+        site.id === siteId ? {
+          ...site,
+          password: encrypt(password),
+          siteName: siteName,
+          userName: userName
+        } : site
+      ));
+      await db.collection('users').doc(auth.currentUser.uid).update({
+        sites: updatedSites
+      });
+    } catch (error) {
+      return error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return {
+    writeUserData,
+    addNewSite,
+    getSites,
+    removeSite,
+    loading,
+    editSite
+  };
 }

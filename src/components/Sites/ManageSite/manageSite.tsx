@@ -31,13 +31,17 @@ const ManageSite = (props: ManageSiteProps) => {
     history.goForward()
   };
 
-  const { addNewSite, removeSite, loading } = useFirebaseDB()
+  const { addNewSite, removeSite, editSite, loading } = useFirebaseDB()
   const { required } = validationTexts;
 
   const handleAddSite = async ({siteName, userName, password}: Record<any, string>, form: any) => {
-    await addNewSite(siteName, userName, password);
-    fetchData()
-    onClose()
+    if(site) {
+      await editSite(siteName, userName, password, site.id)
+    } else {
+      await addNewSite(siteName, userName, password);
+    }
+    fetchData();
+    onClose();
     setTimeout(() => form.restart(), 1000)
   }
 
