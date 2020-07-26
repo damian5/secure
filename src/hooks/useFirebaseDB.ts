@@ -9,11 +9,14 @@ interface useFirebaseAuthProps {
   getSites: () => firebase.firestore.DocumentData;
   removeSite: (siteId: string) => Promise<void>;
   editSite: (siteName: string, userName: string, password: string, siteId: string) => Promise<void>;
+  getSitesById: (siteId: string) => Promise<void | Site>;
   loading: boolean;
+  error: string;
 }
 
 export const useFirebaseDB = (): useFirebaseAuthProps => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null)
 
   const writeUserData = (id: string, userName: string) => {
     db.collection("users").doc(id).set({
@@ -64,7 +67,7 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
       setLoading(true);
       const result = db.collection("users").doc(auth.currentUser.uid).get();
       const sites = (await result).data().sites as Site[];
-      const sitesWithDecryptedPass = sites.map(site => {
+      const sitesWithDecryptedPass = sites.map((site): Site => {
         return {
           ...site,
           password: decrypt(site.password.toString())
@@ -73,6 +76,19 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
       return sitesWithDecryptedPass;
     } catch (error) {
       return error;
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const getSitesById = async (siteId: string) => {
+    try {
+      setLoading(true);
+      const sites: Site[] = await getSites()
+      const site = sites.find(site => site.id === siteId)
+      return site ? site : setError('Seems like the site does not exist or might have been deleted');
+    } catch (error) {
+      return setError(error);
     } finally {
       setLoading(false);
     }
@@ -114,6 +130,8 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
     getSites,
     removeSite,
     loading,
-    editSite
+    getSitesById,
+    editSite,
+    error
   };
 }

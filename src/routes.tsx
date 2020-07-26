@@ -8,6 +8,7 @@ import Settings  from "./components/Settings";
 // TO-DO: put both SignUp and SignIn into their index.ts
 import {SignUp, SignIn} from 'components/auth'
 import { useFirebaseAuth } from 'hooks/useFirebaseAuth';
+import ManageSite from 'components/Sites/ManageSite';
 import Loader from 'components/shared/Loader';
 
 const wrapWithNav = (component: JSX.Element) => {
@@ -48,6 +49,8 @@ const Routes = () => {
 
         <PrivateRoute path="/passwords">{wrapWithNav(<Sites />)}</PrivateRoute>
         <PrivateRoute path="/settings">{wrapWithNav(<Settings />)}</PrivateRoute>
+        <PrivateRoute path="/manage-site">{wrapWithNav(<ManageSite />)}</PrivateRoute>
+
         <Route render={() => <div>Page not found</div>} />
       </Switch>
   ) : <Loader />
