@@ -3,17 +3,16 @@ import { useFirebaseDB } from 'hooks/useFirebaseDB';
 import { CircularProgress } from '@material-ui/core';
 import { Site } from 'interfaces/dataAPI';
 import { SitesWrapper } from './styles';
-import ManageSite from 'components/Sites/ManageSite';
+import {Link, withRouter, RouteComponentProps} from 'react-router-dom'
 
 interface ModalProps {
   isOpen: boolean;
   site: Site;
 }
 
-const Sites = () => {
+const Sites = (props: RouteComponentProps) => {
   const { getSites, loading } = useFirebaseDB()
   const [sites, setSites] = useState<Site[] | null>(null);
-  const [modalInfo, setModalInfo] = useState<ModalProps>({ isOpen: false, site: null })
 
   const fetchData = useCallback(() => {
     getSites().then((result: Site[]) => setSites(result))
@@ -29,10 +28,7 @@ const Sites = () => {
   const handleSiteClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, site: Site) => {
     e.stopPropagation();
     e.preventDefault();
-    setModalInfo({
-      isOpen: true,
-      site: site,
-    });
+    props.history.push('/manage-site', site.id)
   }
 
   const renderSites = () => {
@@ -64,21 +60,10 @@ const Sites = () => {
       <input placeholder="search"/>
       <div>
         {renderSites()}
-        <button onClick={
-          () => setModalInfo(prevState => ({isOpen: true, site: prevState.site}))
-        }>
-          add new app
-        </button>
-        <ManageSite
-          fetchData={fetchData}
-          isOpen={modalInfo.isOpen}
-          site={modalInfo.site}
-          onClose={() => setModalInfo({isOpen: false, site: null})}
-          onChange={()=>{}}
-        />
+        <Link to='/manage-site/'>Add new App</Link>
       </div>
     </SitesWrapper>
   )
 }
 
-export default Sites;
+export default withRouter(Sites);
