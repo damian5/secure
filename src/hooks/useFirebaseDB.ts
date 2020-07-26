@@ -5,10 +5,10 @@ import { useState } from 'react'
 import { encrypt, decrypt } from 'helpers/encryption';
 interface useFirebaseAuthProps {
   writeUserData: (id: string, data: string) => any;
-  addNewSite: (siteName: string, userName: string, password: string) => Promise<void>;
+  addNewSite: (siteName: string, userName: string, password: string, siteUrl: string) => Promise<void>;
   getSites: () => firebase.firestore.DocumentData;
   removeSite: (siteId: string) => Promise<void>;
-  editSite: (siteName: string, userName: string, password: string, siteId: string) => Promise<void>;
+  editSite: (siteName: string, userName: string, password: string, siteUrl: string, siteId: string) => Promise<void>;
   getSitesById: (siteId: string) => Promise<void | Site>;
   loading: boolean;
   error: string;
@@ -28,7 +28,7 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
     });
   };
 
-  const addNewSite = async (siteName: string, userName: string, password: string) => {
+  const addNewSite = async (siteName: string, userName: string, password: string, siteUrl: string) => {
     try {
       setLoading(true);
       const dbRef = db.collection("users").doc(auth.currentUser.uid);
@@ -37,7 +37,10 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
           id: uuidv4(),
           siteName: siteName,
           userName: userName,
-          password: encrypt(password)
+          password: encrypt(password),
+          url: siteUrl,
+          createdAt: new Date().toLocaleDateString(),
+          modifiedAt: new Date().toLocaleDateString()
         })
       });
     } catch (error) {
@@ -98,7 +101,8 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
     siteName: string,
     userName: string,
     password: string,
-    siteId: string
+    siteUrl: string,
+    siteId: string,
   ) => {
     try {
       setLoading(true);
@@ -111,7 +115,9 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
           ...site,
           password: encrypt(password),
           siteName: siteName,
-          userName: userName
+          userName: userName,
+          url: siteUrl,
+          updatedAt: new Date().toLocaleDateString()
         } : site
       ));
       await db.collection('users').doc(auth.currentUser.uid).update({

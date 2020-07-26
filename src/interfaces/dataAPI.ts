@@ -9,4 +9,7 @@ export interface Site {
   siteName: string;
   userName: string;
   password: string;
+  url: string;
+  modifiedAt: Date;
+  createdAt: Date;
 }
