@@ -7,8 +7,9 @@ interface TextFieldProps {
   name: string;
   placeholder?: string;
   showError?: boolean;
-  copyFeature?: any;
-  showCopy?: any;
+  extraFeatureAction?: () => void;
+  showExtraButton?: boolean;
+  extraFeaureName?: string;
   icon?: any;
 }
 
@@ -18,19 +19,18 @@ const TextField = ({
   type,
   name,
   showError,
-  copyFeature,
-  showCopy,
+  extraFeatureAction,
+  showExtraButton,
+  extraFeaureName,
   icon
 }: TextFieldProps) => (
   <Field name={name}>
     {({ input, meta }) => (
       <div>
-        {console.log(showCopy)
-        }
         {label && <label>{label}</label>}
         <div>
           <input {...input} type={type} placeholder={placeholder} />
-          {showCopy && <button type="button" onClick={() => copyFeature()}>copy</button>}
+          {showExtraButton && <button type="button" onClick={() => extraFeatureAction()}>{extraFeaureName}</button>}
           {icon && icon}
         </div>
         {showError && (meta.error || meta.submitError) &&

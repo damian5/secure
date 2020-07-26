@@ -13,12 +13,11 @@ import { copyText } from 'helpers/copyText';
 const ManageSite = (props: any) => {
   const {
     history: {
-      location: {
-        state: siteId
-      },
+      location: { state: siteId },
       push
     },
-  } = props
+  } = props;
+
   const [site, setSite] = useState(null)
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const { addNewSite, removeSite, editSite, getSitesById, loading, error } = useFirebaseDB()
@@ -26,7 +25,7 @@ const ManageSite = (props: any) => {
   useEffect(() => {
     let mounted: boolean = true
     if(siteId && !error && mounted) {
-      getSitesById(siteId).then((site) => setSite(site))
+      getSitesById(siteId).then((site) => setSite(site));
     }
     return() => {
       mounted = false;
@@ -34,13 +33,26 @@ const ManageSite = (props: any) => {
     // eslint-disable-next-line
   }, [error, siteId])
 
-  const { required } = validationTexts;
+  const required = Yup.string().required(validationTexts.required);
 
-  const handleAddSite = async ({siteName, userName, password}: Record<any, string>, form: any) => {
+  const schema = Yup.object().shape({
+    siteName: required,
+    userName: required,
+    password: required
+  })
+
+  const initialValues = {
+    siteName: site?.siteName,
+    userName: site?.userName,
+    password: site?.password,
+    siteUrl: site?.url
+  }
+
+  const handleAddSite = async ({siteName, userName, password, siteUrl}: Record<any, string>, form: any) => {
     if(site) {
-      await editSite(siteName, userName, password, site.id)
+      await editSite(siteName, userName, password, siteUrl, site.id)
     } else {
-      await addNewSite(siteName, userName, password);
+      await addNewSite(siteName, userName, password, siteUrl);
     }
     push('/passwords');
     setTimeout(() => form.restart(), 1000)
@@ -49,18 +61,6 @@ const ManageSite = (props: any) => {
   const handleremoveSite = async () => {
     await removeSite(site.id)
     push('/passwords');
-  }
-
-  const schema = Yup.object().shape({
-    siteName: Yup.string().required(required),
-    userName: Yup.string().required(required),
-    password: Yup.string().required(required),
-  })
-
-  const initialValues = {
-    siteName: site?.siteName,
-    userName: site?.userName,
-    password: site?.password
   }
 
   let JSXElement: JSX.Element | null = null;
@@ -90,15 +90,16 @@ const ManageSite = (props: any) => {
                 type="text"
                 name="userName"
                 label="User Name"
-                showCopy={!!site}
-                copyFeature={() => site && copyText(site['userName'])}
+                showExtraButton={!!site}
+                extraFeatureAction={() => copyText(site['userName'])}
+                extraFeaureName="Copy"
               />
               <TextField
                 showError
                 type={showPassword ? 'text' : 'password'}
                 name="password"
                 label="Site password"
-                showCopy={!!site}
+                showExtraButton={!!site}
                 icon={
                   <button
                     type="button"
@@ -107,7 +108,17 @@ const ManageSite = (props: any) => {
                     show passowrd
                   </button>
                 }
-                copyFeature={() => site && copyText(site['password'])}
+                extraFeatureAction={() => copyText(site['password'])}
+                extraFeaureName="Copy"
+              />
+              <TextField
+                showError
+                type="text"
+                showExtraButton={!!site}
+                name="siteUrl"
+                extraFeatureAction={() => window.open(site['url'])}
+                extraFeaureName="Go"
+                label="Site Url"
               />
               <button
                 disabled={loading || pristine || invalid || submitting}
