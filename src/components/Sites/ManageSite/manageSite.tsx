@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import TextField from 'components/shared/TextField';
 import { withRouter } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
+import { copyText } from 'helpers/copyText';
 
 const ManageSite = (props: any) => {
   const {
@@ -18,8 +19,8 @@ const ManageSite = (props: any) => {
       push
     },
   } = props
-
   const [site, setSite] = useState(null)
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const { addNewSite, removeSite, editSite, getSitesById, loading, error } = useFirebaseDB()
 
   useEffect(() => {
@@ -70,7 +71,7 @@ const ManageSite = (props: any) => {
   } else {
     JSXElement = (
       <ManageSiteWrapper>
-        <button onClick={() => push('/passwords')}>back</button>
+        <button className='back-button' onClick={() => push('/passwords')}>back</button>
         <Form
           initialValues={initialValues}
           onSubmit={(values, form) => handleAddSite(values, form)}
@@ -89,12 +90,24 @@ const ManageSite = (props: any) => {
                 type="text"
                 name="userName"
                 label="User Name"
+                showCopy={!!site}
+                copyFeature={() => site && copyText(site['userName'])}
               />
               <TextField
                 showError
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 name="password"
                 label="Site password"
+                showCopy={!!site}
+                icon={
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    show passowrd
+                  </button>
+                }
+                copyFeature={() => site && copyText(site['password'])}
               />
               <button
                 disabled={loading || pristine || invalid || submitting}
@@ -102,18 +115,19 @@ const ManageSite = (props: any) => {
               >
                 {site ? "Edit" : "Add"}
               </button>
+              {
+                site &&
+                  <button
+                    type="button"
+                    disabled={loading}
+                    onClick={() => handleremoveSite()}
+                  >
+                    remove site
+                  </button>
+              }
             </form>
           )}
         />
-        {
-          site &&
-            <button
-              disabled={loading}
-              onClick={() => handleremoveSite()}
-            >
-              remove site
-            </button>
-        }
       </ManageSiteWrapper>
     )
   }

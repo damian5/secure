@@ -31,6 +31,7 @@ const Sites = (props: RouteComponentProps) => {
     props.history.push('/manage-site', site.id)
   }
 
+  // TO-DO: move this to a shared component in order to use it in favorites
   const renderSites = () => {
     let JSXElement: JSX.Element | JSX.Element[] = null
     if(loading) {

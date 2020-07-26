@@ -7,6 +7,9 @@ interface TextFieldProps {
   name: string;
   placeholder?: string;
   showError?: boolean;
+  copyFeature?: any;
+  showCopy?: any;
+  icon?: any;
 }
 
 const TextField = ({
@@ -15,12 +18,21 @@ const TextField = ({
   type,
   name,
   showError,
+  copyFeature,
+  showCopy,
+  icon
 }: TextFieldProps) => (
   <Field name={name}>
     {({ input, meta }) => (
       <div>
+        {console.log(showCopy)
+        }
         {label && <label>{label}</label>}
-        <input {...input} type={type} placeholder={placeholder} />
+        <div>
+          <input {...input} type={type} placeholder={placeholder} />
+          {showCopy && <button type="button" onClick={() => copyFeature()}>copy</button>}
+          {icon && icon}
+        </div>
         {showError && (meta.error || meta.submitError) &&
           meta.touched && <span>{meta.error || meta.submitError}</span>}
       </div>
