@@ -18,12 +18,12 @@ const ManageSite = (props: any) => {
     },
   } = props;
 
-  const [site, setSite] = useState(null)
+  const [site, setSite] = useState(null);
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { addNewSite, removeSite, editSite, getSitesById, loading, error } = useFirebaseDB()
+  const { addNewSite, removeSite, editSite, getSitesById, loading, error } = useFirebaseDB();
 
   useEffect(() => {
-    let mounted: boolean = true
+    let mounted: boolean = true;
     if(siteId && !error && mounted) {
       getSitesById(siteId).then((site) => setSite(site));
     }
@@ -38,36 +38,36 @@ const ManageSite = (props: any) => {
   const schema = Yup.object().shape({
     siteName: required,
     userName: required,
-    password: required
-  })
+    password: required,
+  });
 
   const initialValues = {
     siteName: site?.siteName,
     userName: site?.userName,
     password: site?.password,
     siteUrl: site?.url
-  }
+  };
 
   const handleAddSite = async ({siteName, userName, password, siteUrl}: Record<any, string>, form: any) => {
     if(site) {
-      await editSite(siteName, userName, password, siteUrl, site.id)
+      await editSite(siteName, userName, password, siteUrl, site.id);
     } else {
       await addNewSite(siteName, userName, password, siteUrl);
     }
     push('/passwords');
-    setTimeout(() => form.restart(), 1000)
+    setTimeout(() => form.restart(), 1000);
   }
 
   const handleremoveSite = async () => {
-    await removeSite(site.id)
+    await removeSite(site.id);
     push('/passwords');
   }
 
   let JSXElement: JSX.Element | null = null;
   if(loading) {
-    JSXElement = <CircularProgress />
+    JSXElement = <CircularProgress />;
   } else if (error) {
-    JSXElement = <div>{error}</div>
+    JSXElement = <div>{error}</div>;
   } else {
     JSXElement = (
       <ManageSiteWrapper>
@@ -114,7 +114,7 @@ const ManageSite = (props: any) => {
               <TextField
                 showError
                 type="text"
-                showExtraButton={!!site}
+                showExtraButton={site?.url}
                 name="siteUrl"
                 extraFeatureAction={() => window.open(site['url'])}
                 extraFeaureName="Go"
@@ -140,8 +140,8 @@ const ManageSite = (props: any) => {
           )}
         />
       </ManageSiteWrapper>
-    )
-  }
+    );
+  };
 
   return JSXElement;
 }

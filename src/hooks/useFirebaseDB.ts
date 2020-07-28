@@ -38,7 +38,7 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
           siteName: siteName,
           userName: userName,
           password: encrypt(password),
-          url: siteUrl,
+          url: siteUrl ? siteUrl : '',
           createdAt: new Date().toLocaleDateString(),
           modifiedAt: new Date().toLocaleDateString()
         })
@@ -117,7 +117,7 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
           siteName: siteName,
           userName: userName,
           url: siteUrl,
-          updatedAt: new Date().toLocaleDateString()
+          modifiedAt: new Date().toLocaleDateString()
         } : site
       ));
       await db.collection('users').doc(auth.currentUser.uid).update({

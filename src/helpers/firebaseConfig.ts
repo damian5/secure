@@ -20,4 +20,4 @@ export const db = firebase.firestore();
 export const firestore = firebase.firestore;
 export const bucket = firebase.database();
 export const auth = firebase.auth();
-export const persistentUserData = firebase.auth.Auth.Persistence.SESSION;
+export const persistentUserData = firebase.auth.Auth.Persistence.LOCAL;
