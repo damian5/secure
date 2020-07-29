@@ -10,12 +10,13 @@ import { validateFormValues } from 'helpers/formValidation';
 
 const SignUp = (props: RouteComponentProps) => {
 
-  const { createUser } = useFirebaseAuth();
+  const { createUser, loading } = useFirebaseAuth();
   const { required, invalidEmail, passwordMustMatch } = validationTexts;
 
   const handleCreateUser = async ({userName, email, password}: Record<any, string>) => {
-    await createUser(userName, email, password)
-    props.history.push('/passwords')
+    await createUser(userName, email, password).then(() => {
+      props.history.push('/passwords')
+    })
   }
 
   const schema = Yup.object().shape({
@@ -29,7 +30,7 @@ const SignUp = (props: RouteComponentProps) => {
     <Form
       onSubmit={(values) => handleCreateUser(values)}
       validate={validateFormValues(schema)}
-      render={({ handleSubmit }) => (
+      render={({ handleSubmit, submitting }) => (
         <WrapForm onSubmit={handleSubmit}>
           <h2>Sign Up</h2>
           <TextField
@@ -56,7 +57,7 @@ const SignUp = (props: RouteComponentProps) => {
             name="repeatPassword"
             label="Repeat password"
           />
-          <button type="submit">Submit</button>
+          <button disabled={submitting || loading} type="submit">Submit</button>
           <label>Already a member? {<Link to='/signin'>sign in!</Link>}</label>
 
         </WrapForm>

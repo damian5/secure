@@ -22,9 +22,8 @@ const wrapWithNav = (component: JSX.Element) => {
   )
 }
 
-const PrivateRoute = ({children, path}) => {
-  const { currentUser } = useFirebaseAuth()
-  if (!currentUser()) {
+const PrivateRoute = ({authenticated, children, path}) => {
+  if (!authenticated) {
     return <Redirect to="/signin"/>
   } else {
     return <Route exact path={path} render={() => children}/>
@@ -33,23 +32,32 @@ const PrivateRoute = ({children, path}) => {
 
 const Routes = () => {
 
-  const [isFirebaseInitialized, setFirebaseInitialized] = useState<any>(false);
-  const { isInitialized } = useFirebaseAuth();
+  const { isFirebaseReady, authenticated } = useFirebaseAuth();
 
-  useEffect(() => {
-    isInitialized()
-    .then(value => setFirebaseInitialized(value))
-  }, [isInitialized])
-
-  return isFirebaseInitialized !== false ? (
+  return isFirebaseReady !== false ? (
       <Switch>
         <Redirect exact push from="/" to="/passwords" />
         <Route exact path="/signup" render={() => <SignUp />} />
         <Route exact path="/signin" render={() => <SignIn />} />
-
-        <PrivateRoute path="/passwords">{wrapWithNav(<Sites />)}</PrivateRoute>
-        <PrivateRoute path="/settings">{wrapWithNav(<Settings />)}</PrivateRoute>
-        <PrivateRoute path="/manage-site">{wrapWithNav(<ManageSite />)}</PrivateRoute>
+        
+        <PrivateRoute
+          authenticated={authenticated}
+          path="/passwords"
+        >
+          {wrapWithNav(<Sites />)}
+        </PrivateRoute>
+        <PrivateRoute
+          authenticated={authenticated}
+          path="/settings"
+        >
+          {wrapWithNav(<Settings />)}
+        </PrivateRoute>
+        <PrivateRoute
+          authenticated={authenticated}
+          path="/manage-site"
+        >
+          {wrapWithNav(<ManageSite />)}
+        </PrivateRoute>
 
         <Route render={() => <div>Page not found</div>} />
       </Switch>
