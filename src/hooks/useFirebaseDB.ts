@@ -68,8 +68,8 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
   const getSites = async () => {
     try {
       setLoading(true);
-      const result = db.collection("users").doc(auth.currentUser.uid).get();
-      const sites = (await result).data().sites as Site[];
+      const result = await db.collection("users").doc(auth.currentUser.uid).get();
+      const sites = result.data().sites as Site[];
       const sitesWithDecryptedPass = sites.map((site): Site => {
         return {
           ...site,

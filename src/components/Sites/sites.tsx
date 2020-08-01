@@ -9,15 +9,17 @@ const Sites = () => {
   const { getSites, loading } = useFirebaseDB()
   const [sites, setSites] = useState<Site[] | null>(null);
 
-  const fetchData = useCallback(() => {
-    getSites().then((result: Site[]) => setSites(result))
-  }, [getSites]);
-
   useEffect(() => {
+
     let mounted: boolean = true
-    mounted && fetchData()
+
+    if (mounted) {
+      getSites().then((result: Site[]) => {
+        setSites(result)
+      })
+    }
     return() => { mounted = false }
-    // eslint-disable-next-line
+
   }, [])
 
   return(

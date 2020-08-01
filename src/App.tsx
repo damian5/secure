@@ -1,19 +1,27 @@
-import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Routes from './routes';
-import ThemeContextProvider from 'hooks/useTheme';
+import React, { useEffect } from 'react';
+import { useHistory } from "react-router-dom";
+import Routes from 'routes'
+import { useFirebaseAuth } from 'hooks/useFirebaseAuth';
 
 const App = () => {
-  return (
-    <CssBaseline>
-      <ThemeContextProvider>
-          <Router>
-            <Routes/>
-          </Router>
-      </ThemeContextProvider>
-    </CssBaseline>
-  );
+  const { isFirebaseReady, authenticated } = useFirebaseAuth();
+  const history = useHistory();
+
+  useEffect(() => {
+    let mounted: boolean = true;
+    if(mounted) {
+      if(isFirebaseReady)
+      if(authenticated) {
+        history.replace('/auth')
+      } else {
+        history.replace('/signin')
+      }
+    }
+
+    return () => {mounted = false}
+  }, [authenticated, history, isFirebaseReady]);
+
+  return <Routes/>;
 };
 
 export default App;

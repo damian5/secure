@@ -62,7 +62,9 @@ export const useFirebaseAuth = (): useFirebaseAuthProps => {
       await auth.setPersistence(persistentUserData)
       try {
         keyFromPassword(password);
-        return await auth.signInWithEmailAndPassword(email, password);
+        return await auth.signInWithEmailAndPassword(email, password).then(
+          (response) => {return response}
+        )
       } catch (error) {
         return setError(error.message);
       }
