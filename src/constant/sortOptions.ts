@@ -1,1 +1,1 @@
-export const SORT_OPTIONS = ['a-z', 'z-a', 'date'];
+export const SORT_OPTIONS: string[] = ['a-z', 'z-a', 'date', 'none'];

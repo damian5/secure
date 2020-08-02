@@ -3,21 +3,18 @@ import { Form } from 'react-final-form'
 import { WrapForm } from '../styles';
 import TextField from 'components/shared/TextField';
 import { useFirebaseAuth } from 'hooks/useFirebaseAuth'
-import { withRouter, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import * as Yup from 'yup';
 import { validation as validationTexts } from 'constant/en.json';
 import { validateFormValues } from 'helpers/formValidation';
 
-const SignIn = (props: any) => {
-  // const history = useHistory()
+const SignIn = () => {
   const { signIn, loading, error } = useFirebaseAuth();
   const { required, invalidEmail } = validationTexts;
 
-  const handleSignIn = useCallback(async ({ email, password }: Record<any, string>) => {
-    await signIn(email, password).then((response) => {
-      return response && props.history.replace('/passwords')
-    });
-  }, [signIn, props.history]);
+  const handleSignIn = useCallback(({ email, password }: Record<any, string>) => {
+    signIn(email, password)
+  }, [signIn]);
 
   const schema = Yup.object().shape({
     email: Yup.string().required(required).email(invalidEmail),
@@ -53,4 +50,4 @@ const SignIn = (props: any) => {
   )
 }
 
-export default withRouter(SignIn);
+export default SignIn;

@@ -43,8 +43,10 @@ export const useSearchAndSort = () => {
           if (aSiteNanme < bSiteNanme) return 1;
           return 0;
         });
-      default:
+      case 'none':
         return filteredSites.reverse();
+      default:
+        return filteredSites;
     };
 
   };

@@ -1,18 +1,15 @@
 import React, { useContext } from "react";
 import { ThemeContext } from 'hooks/useTheme';
 import { FingerPrintContext } from 'hooks/useFingerPrint';
-
 import { useFirebaseAuth } from 'hooks/useFirebaseAuth';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-const Settings = (props: RouteComponentProps) => {
+const Settings = () => {
   const { themeMode, setNewTheme } = useContext(ThemeContext);
   const { useFingerPrint, setFingerPrint } = useContext(FingerPrintContext);
   const { signOut } = useFirebaseAuth()
 
-  const handleSignOut = async () => {
-    await signOut();
-    props.history.push('/signin')
+  const handleSignOut = () => {
+    signOut()
   }
 
   return(
@@ -32,4 +29,4 @@ const Settings = (props: RouteComponentProps) => {
   )
 };
 
-export default withRouter(Settings);
+export default Settings;

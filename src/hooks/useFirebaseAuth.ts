@@ -41,9 +41,14 @@ export const useFirebaseAuth = (): useFirebaseAuthProps => {
   }, []);
 
   const createUser = async (userName: string, email: string, password: string) => {
+    console.log('createUser');
+    
     try {
       setLoading(true);
-      await auth.createUserWithEmailAndPassword(email.trim(), password.trim());
+      await auth.createUserWithEmailAndPassword(email.trim(), password.trim()).then(() => {
+        console.log('createUserWithEmailAndPassword');
+        
+      }).catch(() => {console.log('FAIL createUserWithEmailAndPassword');});
       await writeUserData(auth.currentUser.uid, userName);
 
       return auth.currentUser.updateProfile({

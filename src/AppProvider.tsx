@@ -9,7 +9,7 @@ const AppProvider = () => (
   <CssBaseline>
     <FingerPrintContextProvider>
       <ThemeContextProvider>
-        <Router >
+        <Router>
           <App />
         </Router>
       </ThemeContextProvider>

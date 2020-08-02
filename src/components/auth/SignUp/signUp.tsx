@@ -13,14 +13,14 @@ const SignUp = (props: RouteComponentProps) => {
   const { createUser, loading } = useFirebaseAuth();
   const { required, invalidEmail, passwordMustMatch } = validationTexts;
 
-  const handleCreateUser = async ({userName, email, password}: Record<any, string>) => {
-    await createUser(userName, email, password).then(() => {
+  const handleCreateUser = ({userName, email, password}: Record<any, string>) => {
+    createUser(userName, email, password).then(() => {
       props.history.push('/passwords')
     })
   }
 
   const schema = Yup.object().shape({
-    name: Yup.string().required(required),
+    userName: Yup.string().required(required),
     email: Yup.string().required(required).email(invalidEmail),
     password: Yup.string().required(required),
     repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], passwordMustMatch).required()

@@ -2,39 +2,32 @@ import React, { useEffect, useContext } from 'react'
 import { webAuthnSignin } from 'helpers/webauth';
 import { FingerPrintContext } from 'hooks/useFingerPrint';
 import { useFirebaseAuth } from 'hooks/useFirebaseAuth';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-const Auth = (props) => {
+const Auth = () => {
   const { useFingerPrint } = useContext(FingerPrintContext);
-  const { isFirebaseReady, authenticated } = useFirebaseAuth();
-  // const history = useHistory();
+  const { isFirebaseReady, authenticated, signOut } = useFirebaseAuth();
+  const history = useHistory();
 
   useEffect(() => {
-    let mounted = true;
-    (async () => {
-      await isFirebaseReady;
-      if(mounted) {
-        if(isFirebaseReady) {
-          if(authenticated) {
-            if(useFingerPrint === 'enable') {
-              webAuthnSignin().then(() => props.history.push('/passwords'))
-            } else {
-              props.history.push('/passwords')
-            }
-          } else {
-            console.log('not auth???')
-          }
-        }
+    if(authenticated) {
+      if(useFingerPrint === 'enable') {
+        webAuthnSignin()
+          .then(() => history.push('/passwords'))
+          .catch(error => {
+            signOut()
+          })
+      } else {
+        history.push('/passwords')
       }
-    })()
-    return() => {mounted = false}
-  }, [props.history, authenticated, useFingerPrint, isFirebaseReady])
-  
+    }
+}, [history, authenticated, useFingerPrint, isFirebaseReady, signOut]);
+
   return (
     <div>
-      Enter ur fingerprint
+      Fingerprint required
     </div>
   )
 }
 
-export default withRouter(Auth);
+export default Auth;
