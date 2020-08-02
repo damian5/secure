@@ -15,7 +15,7 @@ const Auth = () => {
         webAuthnSignin()
           .then(() => history.push('/passwords'))
           .catch(error => {
-            signOut()
+            console.log(error);
           })
       } else {
         history.push('/passwords')
