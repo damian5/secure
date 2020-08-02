@@ -7,6 +7,10 @@ interface TextFieldProps {
   name: string;
   placeholder?: string;
   showError?: boolean;
+  extraFeatureAction?: () => void;
+  showExtraButton?: boolean;
+  extraFeaureName?: string;
+  icon?: any;
 }
 
 const TextField = ({
@@ -15,12 +19,20 @@ const TextField = ({
   type,
   name,
   showError,
+  extraFeatureAction,
+  showExtraButton,
+  extraFeaureName,
+  icon
 }: TextFieldProps) => (
   <Field name={name}>
     {({ input, meta }) => (
       <div>
         {label && <label>{label}</label>}
-        <input {...input} type={type} placeholder={placeholder} />
+        <div>
+          <input {...input} type={type} placeholder={placeholder} />
+          {showExtraButton && <button type="button" onClick={() => extraFeatureAction()}>{extraFeaureName}</button>}
+          {icon && icon}
+        </div>
         {showError && (meta.error || meta.submitError) &&
           meta.touched && <span>{meta.error || meta.submitError}</span>}
       </div>
