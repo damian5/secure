@@ -1,26 +1,20 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Form } from 'react-final-form'
 import { WrapForm } from '../styles';
 import TextField from 'components/shared/TextField';
 import { useFirebaseAuth } from 'hooks/useFirebaseAuth'
-import { withRouter, Link, RouteComponentProps } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import * as Yup from 'yup';
 import { validation as validationTexts } from 'constant/en.json';
 import { validateFormValues } from 'helpers/formValidation';
 
-const SignIn = (props: RouteComponentProps) => {
-  // TO-DO: put this sleep in another file and build a loadin/fetching state
-  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
-
-  const { signIn, currentUser } = useFirebaseAuth();
+const SignIn = () => {
+  const { signIn, loading, error } = useFirebaseAuth();
   const { required, invalidEmail } = validationTexts;
 
-  const handleSignIn = async ({ email, password }: Record<any, string>) => {
-    await signIn(email, password)
-    await sleep(3000)
-    if (currentUser())
-    props.history.push('/passwords')
-  }
+  const handleSignIn = useCallback(({ email, password }: Record<any, string>) => {
+    signIn(email, password)
+  }, [signIn]);
 
   const schema = Yup.object().shape({
     email: Yup.string().required(required).email(invalidEmail),
@@ -47,12 +41,13 @@ const SignIn = (props: RouteComponentProps) => {
             name="password"
             label="Password"
           />
-          <button disabled={submitting} type="submit">Submit</button>
+          <button disabled={submitting || loading} type="submit">Submit</button>
           <label>New here? {<Link to='/signup'>create an account!</Link>}</label>
+          {error && <div>{error}</div>}
         </WrapForm>
       ))}}
     />
   )
 }
 
-export default withRouter(SignIn);
+export default SignIn;
