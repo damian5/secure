@@ -19,7 +19,6 @@ const FingerPrintContextProvider: React.FC = ({ children }) => {
   const [useFingerPrint, setUseFingerPrint] = useState(
     localStorage.getItem('fingerPrint') || 'disable'
   );
-    
 
   useEffect(() => {
     localStorage.setItem('fingerPrint', useFingerPrint);

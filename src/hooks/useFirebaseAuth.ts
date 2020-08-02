@@ -41,14 +41,9 @@ export const useFirebaseAuth = (): useFirebaseAuthProps => {
   }, []);
 
   const createUser = async (userName: string, email: string, password: string) => {
-    console.log('createUser');
-    
     try {
       setLoading(true);
-      await auth.createUserWithEmailAndPassword(email.trim(), password.trim()).then(() => {
-        console.log('createUserWithEmailAndPassword');
-        
-      }).catch(() => {console.log('FAIL createUserWithEmailAndPassword');});
+      await auth.createUserWithEmailAndPassword(email.trim(), password.trim());
       await writeUserData(auth.currentUser.uid, userName);
 
       return auth.currentUser.updateProfile({
@@ -81,12 +76,16 @@ export const useFirebaseAuth = (): useFirebaseAuthProps => {
   }
 
   const signOut = async () => {
-    try {
-      window.localStorage.removeItem('KD');
-      await auth.signOut()
-    } catch (error) {
-      setError(error.message);
-    }
+   
+      try {
+        await auth.signOut().then(() => {
+          window.localStorage.setItem('fingerPrint', 'disable')
+          window.localStorage.clear();
+          window.location.reload()
+        })
+      } catch (error) {
+        setError(error.message);
+      }
   }
 
   const currentUser = () => auth.currentUser;

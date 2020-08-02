@@ -6,7 +6,7 @@ import Sites from "./components/Sites";
 import Settings  from "./components/Settings";
 import { SignUp, SignIn, Auth } from 'components/auth'
 import { useFirebaseAuth } from 'hooks/useFirebaseAuth';
-import ManageSite from 'components/Sites/ManageSite';
+import ManageSite from 'components/ManageSite';
 import Loader from 'components/shared/Loader';
 import MainContainerLayout from 'components/layout/MainContainer';
 
