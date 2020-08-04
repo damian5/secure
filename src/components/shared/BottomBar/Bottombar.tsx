@@ -4,7 +4,7 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PasswordIcon from '@material-ui/icons/VpnKey';
-import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+// import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import SettingsIcon from '@material-ui/icons/Settings';
 
 const BottomBar = () => {
@@ -28,13 +28,13 @@ const BottomBar = () => {
         value="favorites"
         icon={<FavoriteIcon />}
       />
-      <BottomNavigationAction
+      {/* <BottomNavigationAction
         component={Link}
         to="/myMoney"
         label="myMoney"
         value="myMoney"
         icon={<AccountBalanceIcon />}
-      />
+      /> */}
       <BottomNavigationAction
         component={Link}
         to="/settings"

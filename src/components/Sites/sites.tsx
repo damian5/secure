@@ -1,38 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useFirebaseDB } from 'hooks/useFirebaseDB';
-import { Site } from 'interfaces/dataAPI';
-import { SitesWrapper } from './styles';
-import { Link } from 'react-router-dom'
+import React, { useContext } from 'react';
 import RenderSites from './renderSites';
+import { SiteContext } from 'hooks/siteContext';
 import Loader from 'components/shared/Loader';
 
 const Sites = () => {
-  const { getSites, loading } = useFirebaseDB()
-  const [sites, setSites] = useState<Site[] | null>(null);
-
-  useEffect(() => {
-    let mounted: boolean = true
-
-    if (mounted) {
-      getSites().then((result: Site[]) => {
-        setSites(result)
-      })
-    }
-
-    return() => { mounted = false }
-  // eslint-disable-next-line
-  }, [])
-
-  return(
-    <SitesWrapper>
-      {loading ? <Loader /> : (
-        <>
-          <RenderSites sites={sites} loading={loading}/>
-          <Link to='/manage-site/'>Add new App</Link>
-        </>
-      )}
-    </SitesWrapper>
-  )
+  const { sites, loading } = useContext(SiteContext)
+   
+  return loading ? <Loader /> : <RenderSites sites={sites} />
 }
 
 export default Sites;

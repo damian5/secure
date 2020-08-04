@@ -3,10 +3,12 @@ import { webAuthnSignin, webAuthnSignup } from 'helpers/webauth';
 import { FingerPrintContext } from 'hooks/useFingerPrint';
 import { useFirebaseAuth } from 'hooks/useFirebaseAuth';
 import { useHistory } from 'react-router-dom';
+import { AuthContext } from 'hooks/authContext';
 
 const Auth = () => {
   const { useFingerPrint, error } = useContext(FingerPrintContext);
-  const { isFirebaseReady, authenticated, signOut } = useFirebaseAuth();
+  const { isFirebaseReady, authenticated } = useContext(AuthContext);
+  const { signOut } = useFirebaseAuth();
   const history = useHistory();
 
   useEffect(() => {
