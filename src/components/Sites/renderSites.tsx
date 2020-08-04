@@ -1,26 +1,33 @@
 import React, { useState, memo, useCallback } from 'react';
 import { useSearchAndSort } from 'hooks/useSearchAndSort';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { Site } from 'interfaces/dataAPI';
+import { SORT_OPTIONS } from 'constant/sortOptions'
+import { SitesWrapper } from './styles';
+import { useFirebaseDB } from 'hooks/useFirebaseDB';
 import SearchBar from 'components/shared/SearchBar';
 import SelectCard from 'components/shared/SelectCard';
-import { SORT_OPTIONS } from 'constant/sortOptions'
 interface PasswordState {
   isVisible: boolean,
   index: number
 }
 
-const RenderSites = (props: any) => {
+interface RenderSitesProps {
+  sites: Site[];
+  isFavorite?: boolean;
+}
+
+const RenderSites = ({sites, isFavorite}: RenderSitesProps) => {
   const [ searchParam, setSearchParam ] = useState<string>(null);
   const [ sortParam, setSortParam ] = useState<string>(SORT_OPTIONS[3]);
   const [ showSort, setShowSort ] = useState<boolean>(false);
+  const { editSite } = useFirebaseDB();
   const [ showPassword, setShowPassword ] = useState<PasswordState>({
     isVisible: false,
     index: null,
   });
   const { searchAndSort } = useSearchAndSort();
   const history = useHistory();
-  const { sites } = props;
 
   const handleSiteClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, siteId: string) => {
     e.stopPropagation();
@@ -48,10 +55,17 @@ const RenderSites = (props: any) => {
   const renderPassword = useCallback((index: number, password: string) => (
     (showPassword.index === index && showPassword.isVisible) ?
       password :
-      Array(password.length).join(" * ")
+      Array(password.length + 1).join(" * ")
   ), [showPassword]);
 
+  const handleFavorite = useCallback((e: any, id: string) => {
+    e.stopPropagation();
+    e.preventDefault();
+    editSite(id, true)
+  }, [editSite]);
+
   let JSXElement = null;
+
   if(sites?.length > 0) {
     const filteredSites = searchParam || sortParam ? searchAndSort(sites, searchParam, sortParam) : sites
     JSXElement = <>
@@ -62,7 +76,7 @@ const RenderSites = (props: any) => {
       <button onClick={() => setShowSort(true)}>Sort</button>
     {
       filteredSites?.map((site: Site, i: number) => {
-        const { siteName, userName, id, password, createdAt, modifiedAt, url } = site;
+        const { siteName, userName, id, password, createdAt, modifiedAt, url, favorite } = site;
         return (
           <div
             onClick={(e) => handleSiteClick(e, id)}
@@ -80,6 +94,7 @@ const RenderSites = (props: any) => {
             <p>{url}</p>
             <p>Modified at {modifiedAt}</p>
             <p>Created at {createdAt}</p>
+            <button type="button" onClick={(e) => handleFavorite(e, id)}>{favorite ? 'isFavorite' : 'is not Favorite'}</button>
           </div>
         )
       })
@@ -95,10 +110,15 @@ const RenderSites = (props: any) => {
     }
     </>
   } else {
-    JSXElement = <div>Crate your first site here</div>;
+    JSXElement = isFavorite ? <div>You don't have favorites yet</div> : <div>Crate your first site here</div>
   }
 
-  return JSXElement;
+  return (
+    <SitesWrapper>
+      {JSXElement}
+      {!isFavorite && <Link to='/manage-site/'>Add new App</Link>}
+    </SitesWrapper>
+  )
 }
 
 export default memo(RenderSites);

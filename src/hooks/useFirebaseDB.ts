@@ -6,12 +6,11 @@ import { encrypt, decrypt } from 'helpers/encryption';
 interface useFirebaseAuthProps {
   writeUserData: (id: string, data: string) => any;
   addNewSite: (siteName: string, userName: string, password: string, siteUrl: string) => Promise<void>;
-  getSites: () => firebase.firestore.DocumentData;
   removeSite: (siteId: string) => Promise<void>;
-  editSite: (siteName: string, userName: string, password: string, siteUrl: string, siteId: string) => Promise<void>;
+  editSite: (siteId: string, isFavorite: boolean, siteName?: string, userName?: string, password?: string, siteUrl?: string) => Promise<void>;
   getSitesById: (siteId: string) => Promise<void | Site>;
   loading: boolean;
-  error: string;
+  error: string | null;
 }
 
 export const useFirebaseDB = (): useFirebaseAuthProps => {
@@ -39,6 +38,7 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
           userName: userName,
           password: encrypt(password),
           url: siteUrl ? siteUrl : '',
+          favorite: false,
           createdAt: new Date().toLocaleDateString(),
           modifiedAt: new Date().toLocaleDateString()
         })
@@ -65,7 +65,7 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
     }
   };
 
-  const getSites = async () => {
+  const getSitesById = async (siteId: string) => {
     try {
       setLoading(true);
       const result = await db.collection("users").doc(auth.currentUser.uid).get();
@@ -76,33 +76,22 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
           password: decrypt(site.password.toString())
         };
       });
-      return sitesWithDecryptedPass;
-    } catch (error) {
-      return error;
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  const getSitesById = async (siteId: string) => {
-    try {
-      setLoading(true);
-      const sites: Site[] = await getSites()
-      const site = sites.find(site => site.id === siteId)
+      const site = sitesWithDecryptedPass.find(site => site.id === siteId)
       return site ? site : setError('Seems like the site does not exist or might have been deleted');
     } catch (error) {
-      return setError(error);
+      return setError(error.message);
     } finally {
       setLoading(false);
     }
   }
 
   const editSite = async (
+    siteId: string,
+    isFavorite: boolean,
     siteName: string,
     userName: string,
     password: string,
     siteUrl: string,
-    siteId: string,
   ) => {
     try {
       setLoading(true);
@@ -110,16 +99,27 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
       const sites = (await result).data().sites as Site[];
       // This is not the most optimal thing, but Firebase does not support updates
       // on single array elements.
-      const updatedSites = sites.map(site => (
-        site.id === siteId ? {
-          ...site,
-          password: encrypt(password),
-          siteName: siteName,
-          userName: userName,
-          url: siteUrl,
-          modifiedAt: new Date().toLocaleDateString()
-        } : site
-      ));
+      const updatedSites = sites.map(site => {
+        if(site.id === siteId ) {
+          if(isFavorite) {
+            return {
+              ...site,
+              favorite: !site.favorite
+            }
+          } else {
+            return {
+              ...site,
+              password: encrypt(password),
+              siteName: siteName,
+              userName: userName,
+              url: siteUrl,
+              modifiedAt: new Date().toLocaleDateString()
+            }
+          }
+        } else {
+          return site
+        }
+    });
       await db.collection('users').doc(auth.currentUser.uid).update({
         sites: updatedSites
       });
@@ -133,11 +133,10 @@ export const useFirebaseDB = (): useFirebaseAuthProps => {
   return {
     writeUserData,
     addNewSite,
-    getSites,
     removeSite,
     loading,
     getSitesById,
     editSite,
-    error
+    error,
   };
 }
