@@ -1,25 +1,23 @@
-import React, { createContext, useState, useEffect } from "react";
-import { useFirebaseAuth } from 'hooks/useFirebaseAuth'
+import React, { createContext, useState, useEffect, useContext } from "react";
 import { webAuthnSignup } from "helpers/webauth";
+import { AuthContext } from "./authContext";
 
 interface FingerPrintContextProps {
-  useFingerPrint: any;
-  setFingerPrint: any;
+  useFingerPrint: string;
+  setFingerPrint: () => void;
   error: string;
 }
 
 export const FingerPrintContext = createContext({} as FingerPrintContextProps);
 
-
 const FingerPrintContextProvider: React.FC = ({ children }) => {
   const { localStorage } = window;
-  const { authenticated, currentUser } = useFirebaseAuth();
-  const [ error, setError ] = useState();
+  const { currentUser, authenticated} = useContext(AuthContext);
+  const [ error, setError ] = useState<string>();
 
   const [useFingerPrint, setUseFingerPrint] = useState(
     localStorage.getItem('fingerPrint') || 'disable'
   );
-    
 
   useEffect(() => {
     localStorage.setItem('fingerPrint', useFingerPrint);
@@ -31,7 +29,7 @@ const FingerPrintContextProvider: React.FC = ({ children }) => {
       setUseFingerPrint('disable');
     } else {
       if(authenticated) {
-        webAuthnSignup(currentUser().email).then(() => {
+        webAuthnSignup(currentUser.email).then(() => {
           setUseFingerPrint('enable')
         }).catch(err => setError(err))
       } else {

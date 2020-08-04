@@ -1,22 +1,20 @@
 import React from 'react';
 import { Form } from 'react-final-form';
 import { useFirebaseAuth } from 'hooks/useFirebaseAuth';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { WrapForm } from '../styles';
 import TextField from 'components/shared/TextField';
 import * as Yup from 'yup';
 import { validation as validationTexts } from 'constant/en.json';
 import { validateFormValues } from 'helpers/formValidation';
 
-const SignUp = (props: RouteComponentProps) => {
+const SignUp = () => {
 
-  const { createUser, loading } = useFirebaseAuth();
+  const { createUser, loading, error } = useFirebaseAuth();
   const { required, invalidEmail, passwordMustMatch } = validationTexts;
 
   const handleCreateUser = ({userName, email, password}: Record<any, string>) => {
-    createUser(userName, email, password).then(() => {
-      props.history.push('/passwords')
-    })
+    createUser(userName, email, password)
   }
 
   const schema = Yup.object().shape({
@@ -59,7 +57,7 @@ const SignUp = (props: RouteComponentProps) => {
           />
           <button disabled={submitting || loading} type="submit">Submit</button>
           <label>Already a member? {<Link to='/signin'>sign in!</Link>}</label>
-
+          {error && <div>{error}</div>}
         </WrapForm>
       )}
     />
