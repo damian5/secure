@@ -10,6 +10,7 @@ export interface Site {
   userName: string;
   password: string;
   url: string;
+  favorite: boolean;
   modifiedAt: Date;
   createdAt: Date;
 }

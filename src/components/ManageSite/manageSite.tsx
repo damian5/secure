@@ -50,7 +50,7 @@ const ManageSite = (props: any) => {
 
   const handleAddSite = async ({siteName, userName, password, siteUrl}: Record<any, string>, form: any) => {
     if(site) {
-      await editSite(siteName, userName, password, siteUrl, site.id);
+      await editSite(site.id, false, siteName, userName, password, siteUrl);
     } else {
       await addNewSite(siteName, userName, password, siteUrl);
     }

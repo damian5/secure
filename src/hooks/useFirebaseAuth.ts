@@ -1,54 +1,25 @@
 import { auth, persistentUserData } from 'helpers/firebaseConfig';
 import { useFirebaseDB } from './useFirebaseDB';
 import {keyFromPassword} from 'helpers/encryption';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 interface useFirebaseAuthProps {
   createUser: (userName: string, email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
-  currentUser: () => firebase.User;
   signIn: (email: string, password: string) => Promise<firebase.auth.UserCredential | void>;
-  isInitialized: () => Promise<unknown>;
   loading: boolean;
   error: string | null;
-  authenticated: any;
-  isFirebaseReady: any;
 }
 
 export const useFirebaseAuth = (): useFirebaseAuthProps => {
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
-  const [ authenticated, setAuthenticated ] = useState(false);
-  const [ isFirebaseReady, setFirebaseReady ] = useState(false);
   const { writeUserData } = useFirebaseDB();
 
-  useEffect(() => {
-    let mounted = true;
-    if (mounted) {
-      auth.onAuthStateChanged(((user) => {
-      if (user) {
-        setAuthenticated(true);
-      } else {
-        if (mounted) {
-          setAuthenticated(false);
-        }
-      }
-      setFirebaseReady(true);
-    }))}
-    return () => {
-      mounted = false;
-    }
-  }, []);
-
   const createUser = async (userName: string, email: string, password: string) => {
-    console.log('createUser');
-    
     try {
       setLoading(true);
-      await auth.createUserWithEmailAndPassword(email.trim(), password.trim()).then(() => {
-        console.log('createUserWithEmailAndPassword');
-        
-      }).catch(() => {console.log('FAIL createUserWithEmailAndPassword');});
+      await auth.createUserWithEmailAndPassword(email.trim(), password.trim());
       await writeUserData(auth.currentUser.uid, userName);
 
       return auth.currentUser.updateProfile({
@@ -82,28 +53,20 @@ export const useFirebaseAuth = (): useFirebaseAuthProps => {
 
   const signOut = async () => {
     try {
-      window.localStorage.removeItem('KD');
-      await auth.signOut()
+      await auth.signOut().then(() => {
+        window.localStorage.setItem('fingerPrint', 'disable')
+        window.location.reload()
+      })
     } catch (error) {
       setError(error.message);
     }
   }
 
-  const currentUser = () => auth.currentUser;
-
-  const isInitialized = () => new Promise(resolve => {
-    return auth.onAuthStateChanged(resolve)
-  })
-
   return {
     createUser,
     signOut,
-    currentUser,
     signIn,
-    isInitialized,
     loading,
     error,
-    authenticated,
-    isFirebaseReady
   }
 }
