@@ -1,6 +1,5 @@
 import React, { useEffect, useContext } from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
-import StyledApp from 'style/styledApp';
 import BottomBar from 'components/shared/BottomBar';
 import Sites from "./components/Sites";
 import Settings  from "./components/Settings";
@@ -8,16 +7,13 @@ import Favorites from 'components/Favorites'
 import { SignUp, SignIn, Auth } from 'components/auth'
 import ManageSite from 'components/ManageSite';
 import Loader from 'components/shared/Loader';
-import MainContainerLayout from 'components/layout/MainContainer';
 import { AuthContext } from 'hooks/authContext';
 
 const wrapWithNav = (component: JSX.Element) => (
-  <StyledApp>
-    <MainContainerLayout>
-      {component}
-    </MainContainerLayout>
+  <>
+    {component}
     <BottomBar />
-  </StyledApp>
+  </>
 );
 
 const App = () => {

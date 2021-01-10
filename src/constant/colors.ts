@@ -1,4 +1,7 @@
 export const colorsPalette = {
+  whiteOpacity: 'rgba(255,255,255,0.5)',
+  blackOpacity: 'rgba(0, 0, 0,0.5)',
+
   white: '#ffffff',
   darkGrey: '#222222',
   superDarkGrey: '#191919',

@@ -9,8 +9,11 @@ import SettingsIcon from '@material-ui/icons/Settings';
 
 const BottomBar = () => {
   const [value, setValue] = useState<string>('/passwords');
-
+  console.log(window);
+  
   return (
+    <>
+    <div className="blur-div" />
     <BottomNavigation value={value} showLabels onChange={(event, newValue) => {
       setValue(newValue);
     }}>
@@ -43,6 +46,7 @@ const BottomBar = () => {
         icon={<SettingsIcon />}
       />
     </BottomNavigation>
+    </>
   )
 }
 

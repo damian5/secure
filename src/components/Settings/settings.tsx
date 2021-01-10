@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { ThemeContext } from 'hooks/useTheme';
 import { FingerPrintContext } from 'hooks/useFingerPrint';
 import { useFirebaseAuth } from 'hooks/useFirebaseAuth';
+import { Wrapper } from './styles';
 
 const Settings = () => {
   const { themeMode, setNewTheme } = useContext(ThemeContext);
@@ -13,7 +14,7 @@ const Settings = () => {
   }
 
   return(
-    <>
+    <Wrapper>
       <h1>Settings</h1>
       <div>
         <p>theme: {themeMode}</p>
@@ -24,7 +25,7 @@ const Settings = () => {
         <button onClick={() => setFingerPrint()}>switch Finger print</button>
       </div>
       <button onClick={() => handleSignOut()}>Sign out</button>
-    </>
+    </Wrapper>
 
   )
 };

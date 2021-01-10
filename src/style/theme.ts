@@ -1,4 +1,5 @@
 import { colorsPalette } from 'constant/colors';
+import { Themes } from 'interfaces/theme';
 
 export default {
   lightTheme: {
@@ -6,13 +7,19 @@ export default {
       background: colorsPalette.white,
       primary: colorsPalette.darkGrey,
     },
-    transition: '0.3s',
+    transparency: {
+      background: colorsPalette.whiteOpacity
+    },
+    transition: '1s',
   },
   darkTheme: {
     colors: {
       background: colorsPalette.darkGrey,
       primary: colorsPalette.darkViolet,
     },
-    transition: '0.3s',
+    transparency: {
+      background: colorsPalette.blackOpacity,
+    },
+    transition: '1s',
   },
-}
+} as Themes;
