@@ -3,10 +3,15 @@ import { useSearchAndSort } from 'hooks/useSearchAndSort';
 import { useHistory, Link } from 'react-router-dom';
 import { Site } from 'interfaces/dataAPI';
 import { SORT_OPTIONS } from 'constant/sortOptions'
-import { SitesWrapper } from './styles';
+import { Wrapper, SitesWrapper, StyledSite } from './styles';
 import { useFirebaseDB } from 'hooks/useFirebaseDB';
 import SearchBar from 'components/shared/SearchBar';
 import SelectCard from 'components/shared/SelectCard';
+import Divider from 'components/shared/Divider';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
+import { colorsPalette } from 'constant/colors';
+import SortIcon from '@material-ui/icons/Sort';
 interface PasswordState {
   isVisible: boolean,
   index: number
@@ -65,7 +70,11 @@ const RenderSites = ({sites, isFavorite}: RenderSitesProps) => {
   }, [editSite]);
 
   let JSXElement = null;
-
+ 
+  const favoriteButtonStyle = {
+    fill: `${colorsPalette.red}`
+  }
+  
   if(sites?.length > 0) {
     const filteredSites = searchParam || sortParam ? searchAndSort(sites, searchParam, sortParam) : sites
     JSXElement = <>
@@ -73,32 +82,38 @@ const RenderSites = ({sites, isFavorite}: RenderSitesProps) => {
         placeholder="Search your site"
         onChange={(value) => setSearchParam(value)}
       />
-      <button onClick={() => setShowSort(true)}>Sort</button>
-    {
-      filteredSites?.map((site: Site, i: number) => {
-        const { siteName, userName, id, password, createdAt, modifiedAt, url, favorite } = site;
-        return (
-          <div
-            onClick={(e) => handleSiteClick(e, id)}
-            key={i}
-            style={{border: '1px solid grey', cursor: 'pointer'}}
-          >
-            <h1>{siteName}</h1>
-            <p>{userName}</p>
-            <div>
-              <p>{renderPassword(i, password)}</p>
-              <button type="button" onClick={(e) => {handleShowPassword(e, i)}}>
-                Show Password
-              </button>
-            </div>
-            <p>{url}</p>
-            <p>Modified at {modifiedAt}</p>
-            <p>Created at {createdAt}</p>
-            <button type="button" onClick={(e) => handleFavorite(e, id)}>{favorite ? 'isFavorite' : 'is not Favorite'}</button>
-          </div>
-        )
-      })
-    }
+      <SortIcon onClick={() => setShowSort(true)}>Sort</SortIcon>
+      <SitesWrapper>
+        {
+          filteredSites?.map((site: Site, i: number) => {
+            const { siteName, userName, id, password, createdAt, modifiedAt, url, favorite } = site;
+            return (
+              <StyledSite
+                onClick={(e) => handleSiteClick(e, id)}
+                key={i}
+              >
+                <h1>{siteName}</h1>
+                <Divider topSpace={1} bottomSpace={1} height={0.3}/>
+                <p>{userName}</p>
+                <div>
+                  <p>{renderPassword(i, password)}</p>
+                  <button type="button" onClick={(e) => {handleShowPassword(e, i)}}>
+                    Show Password
+                  </button>
+                </div>
+                {url && <Divider topSpace={10} bottomSpace={1} height={0.3} />}
+                <p>{url}</p>
+                <Divider topSpace={1} bottomSpace={1} height={0.3}/>
+                <p>Modified at {modifiedAt}</p>
+                <p>Created at {createdAt}</p>
+                <Divider topSpace={1} bottomSpace={1} height={0.3}/>
+                <button className="favorite-button" type="button" onClick={(e) => handleFavorite(e, id)}>{favorite ? <FavoriteIcon style={favoriteButtonStyle}/> : <FavoriteBorder style={favoriteButtonStyle}/>}</button>
+              </StyledSite>
+            )
+          })
+        }
+      </SitesWrapper>
+
     {
       showSort &&
       <SelectCard
@@ -114,10 +129,10 @@ const RenderSites = ({sites, isFavorite}: RenderSitesProps) => {
   }
 
   return (
-    <SitesWrapper>
+    <Wrapper>
       {JSXElement}
       {!isFavorite && <Link to='/manage-site/'>Add new App</Link>}
-    </SitesWrapper>
+    </Wrapper>
   )
 }
 

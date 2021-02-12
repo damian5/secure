@@ -8,6 +8,8 @@
     "required": "This field is required!",
     "min": "The password must be at least 6 characters long!",
     "invalidEmail": "This email doesn't seem valid",
-    "passwordMustMatch": "Passwords must match"
+    "passwordMustMatch": "Passwords must match",
+    "invalidPinCode": "The pin is incorrect",
+    "minPinLenght": "The pin must be 4 characters long"
   }
 }
