@@ -9,41 +9,43 @@ import SettingsIcon from '@material-ui/icons/Settings';
 
 const BottomBar = () => {
   const [value, setValue] = useState<string>('/passwords');
-
   return (
-    <BottomNavigation value={value} showLabels onChange={(event, newValue) => {
-      setValue(newValue);
-    }}>
-      <BottomNavigationAction
-        component={Link}
-        to="/passwords"
-        label="passwords"
-        value="passwords"
-        icon={<PasswordIcon />}
-      />
-      <BottomNavigationAction
-        to="/favorites"
-        component={Link}
-        label="favorites"
-        value="favorites"
-        icon={<FavoriteIcon />}
-      />
-      {/* <BottomNavigationAction
+    <>
+      <div className="blur-div" />
+      <BottomNavigation value={value} showLabels onChange={(event, newValue) => {
+        setValue(newValue);
+      }}>
+        <BottomNavigationAction
+          component={Link}
+          to="/passwords"
+          label="passwords"
+          value="passwords"
+          icon={<PasswordIcon />}
+        />
+        <BottomNavigationAction
+          to="/favorites"
+          component={Link}
+          label="favorites"
+          value="favorites"
+          icon={<FavoriteIcon />}
+        />
+        {/* <BottomNavigationAction
         component={Link}
         to="/myMoney"
         label="myMoney"
         value="myMoney"
         icon={<AccountBalanceIcon />}
-      /> */}
-      <BottomNavigationAction
-        component={Link}
-        to="/settings"
-        label="settings"
-        value="settings"
-        icon={<SettingsIcon />}
-      />
-    </BottomNavigation>
-  )
-}
+        /> */}
+        <BottomNavigationAction
+          component={Link}
+          to="/settings"
+          label="settings"
+          value="settings"
+          icon={<SettingsIcon />}
+        />
+      </BottomNavigation>
+    </>
+  );
+};
 
 export default BottomBar;

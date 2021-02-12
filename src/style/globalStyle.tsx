@@ -29,16 +29,22 @@ const GlobalStyle = createGlobalStyle<{theme: any}>`
     }
 
     #root {
-      background: ${theme.colors.background}
+      background: ${theme.colors.background};
+      min-height: 100%;
     }
 
     body {
       margin: 0;
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
       font-family: 'Gotham';
       font-weight: 400;
       font-style: normal;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
     }
 
     p {
@@ -49,6 +55,22 @@ const GlobalStyle = createGlobalStyle<{theme: any}>`
     h1, h2, h3, h4, h5 {
       font-weight: 600;
       color: ${theme.colors.primary};
+    }
+
+    .MuiBottomNavigation-root {
+      position: fixed;
+      bottom: 0;
+      background: transparent;
+      width: 100%;
+    }
+
+    .blur-div {
+      bottom: 0;
+      position: fixed;
+      height: 55px;
+      background: ${theme.transparency.background};
+      width: 100%;
+      backdrop-filter: blur(5px);
     }
   `}
 `;
