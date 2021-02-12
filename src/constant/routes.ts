@@ -1,4 +1,4 @@
-export const routes = {
+export const routes = Object.freeze({
   signIn: {
     path: '/signin',
     name: 'signin'
@@ -27,4 +27,4 @@ export const routes = {
     path: '/auth',
     name: 'auth'
   }
-};
+});

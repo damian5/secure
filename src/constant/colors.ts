@@ -1,4 +1,4 @@
-export const colorsPalette = {
+export const colorsPalette = Object.freeze({
   whiteOpacity: 'rgba(255,255,255,0.5)',
   blackOpacity: 'rgba(0, 0, 0,0.5)',
 
@@ -19,4 +19,4 @@ export const colorsPalette = {
   orange: '#feb969',
   purple: '#7764e4',
   greyShadow: '#666666',
-};
+});

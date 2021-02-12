@@ -1,10 +1,10 @@
 import React, { useEffect, useContext } from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
 import BottomBar from 'components/shared/BottomBar';
-import Sites from "./components/Sites";
-import Settings  from "./components/Settings";
-import Favorites from 'components/Favorites'
-import { SignUp, SignIn, Auth } from 'components/auth'
+import Sites from './components/Sites';
+import Settings  from './components/Settings';
+import Favorites from 'components/Favorites';
+import { SignUp, SignIn, Auth } from 'components/auth';
 import ManageSite from 'components/ManageSite';
 import Loader from 'components/shared/Loader';
 import { AuthContext } from 'hooks/authContext';
@@ -18,10 +18,10 @@ const wrapWithNav = (component: JSX.Element) => (
 
 const App = () => {
   const history = useHistory();
-  const { isFirebaseReady, authenticated } = useContext(AuthContext)
+  const { isFirebaseReady, authenticated } = useContext(AuthContext);
 
   useEffect(() => {
-    let mounted: boolean = true;
+    let mounted = true;
     if(mounted) {
       if(authenticated) {
         history.push('/auth');
@@ -29,10 +29,10 @@ const App = () => {
         history.push('/signin');
       }
     }
-    return () => { mounted = false }
+    return () => { mounted = false; };
   }, [history, authenticated, isFirebaseReady]);
 
-  return !!isFirebaseReady ? (
+  return isFirebaseReady ? (
     <Switch>
       <Route exact path="/signup" component={SignUp} />
       <Route exact path="/signin" component={SignIn} />
@@ -43,7 +43,7 @@ const App = () => {
       <Route exact path="/auth" component={Auth} />
       <Route render={() => <div>Page not found</div>} />
     </Switch>
-) : <Loader />
+  ) : <Loader />;
 };
 
 export default App;
