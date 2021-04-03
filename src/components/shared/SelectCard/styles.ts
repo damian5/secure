@@ -1,12 +1,7 @@
 import styled from "styled-components";
-import { Theme } from 'interfaces/theme';
 import { fnScale } from 'helpers/scale';
 
-interface CardWrapperProps {
-  readonly theme: Theme,
-}
-
-export const CardWrapper = styled.div<CardWrapperProps>`
+export const CardWrapper = styled.div`
   z-index: 3;
   width: 100%;
   min-height: 100%;
@@ -15,7 +10,7 @@ export const CardWrapper = styled.div<CardWrapperProps>`
   left: 0;
   right: 0;
   .background {
-    background: ${({ theme }: CardWrapperProps) => theme.transparency.background};
+    background: ${({ theme }) => theme.transparency.background};
     height: 100%;
     position: absolute;
     width: 100%;

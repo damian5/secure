@@ -1,42 +1,54 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PasswordIcon from '@material-ui/icons/VpnKey';
 // import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import SettingsIcon from '@material-ui/icons/Settings';
 
+import { StyledBottomBarButton, BlurBackground } from './styles';
+
 const BottomBar = () => {
-  const [value, setValue] = useState<string>('/passwords');
+  const location = useLocation();
+  const pathname = location.pathname.replace('/', '');
+
+  const [value, setValue] = useState<string>(pathname);
+
+  useEffect(() => {
+    setValue(pathname);
+  }, [pathname]);
+
+  const isTabSelected: (param: string) => boolean = (location) => location === value;
+
   return (
     <>
-      <div className="blur-div" />
-      <BottomNavigation value={value} showLabels onChange={(event, newValue) => {
-        setValue(newValue);
-      }}>
-        <BottomNavigationAction
+      <BlurBackground className="blur-div" />
+      <BottomNavigation showLabels onChange={(_, newValue) => setValue(newValue )}>
+        <StyledBottomBarButton
+          test={isTabSelected('passwords').toString()}
           component={Link}
           to="/passwords"
           label="passwords"
           value="passwords"
           icon={<PasswordIcon />}
         />
-        <BottomNavigationAction
+        <StyledBottomBarButton
+          test={isTabSelected('favorites').toString()}
           to="/favorites"
           component={Link}
           label="favorites"
           value="favorites"
           icon={<FavoriteIcon />}
         />
-        {/* <BottomNavigationAction
+        {/* <StyledBottomBarButton
         component={Link}
         to="/myMoney"
         label="myMoney"
         value="myMoney"
         icon={<AccountBalanceIcon />}
         /> */}
-        <BottomNavigationAction
+        <StyledBottomBarButton
+          test={isTabSelected('settings').toString()}
           component={Link}
           to="/settings"
           label="settings"

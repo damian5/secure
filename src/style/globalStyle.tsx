@@ -29,7 +29,6 @@ const GlobalStyle = createGlobalStyle<{theme: any}>`
     }
 
     #root {
-      background: ${theme.colors.background};
       min-height: 100%;
     }
 
@@ -38,6 +37,7 @@ const GlobalStyle = createGlobalStyle<{theme: any}>`
       width: 100%;
       height: 100%;
       font-family: 'Gotham';
+      background: ${theme.colors.background};
       font-weight: 400;
       font-style: normal;
       -webkit-user-select: none;
@@ -60,14 +60,29 @@ const GlobalStyle = createGlobalStyle<{theme: any}>`
     .MuiBottomNavigation-root {
       position: fixed;
       bottom: 0;
+      height: 70px;
       background: transparent;
       width: 100%;
+  
+
     }
+
+
+/* .MuiBottomNavigationAction-root.Mui-selected
+    .MuiSvgIcon-root {
+
+    } */
+
+
+      &&.MuiBottomNavigationAction-root.Mui-selected {
+        color: 'red';
+       background-color: 'blue' !important;
+      }
 
     .blur-div {
       bottom: 0;
       position: fixed;
-      height: 55px;
+      height: 70px;
       background: ${theme.transparency.background};
       width: 100%;
       backdrop-filter: blur(5px);
