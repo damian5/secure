@@ -1,25 +1,37 @@
 import { colorsPalette } from 'constant/colors';
-import { Themes } from 'interfaces/theme';
+import { DefaultTheme } from "styled-components";
 
-export default {
-  lightTheme: {
+declare module 'styled-components' {
+  export interface DefaultTheme {
     colors: {
-      background: colorsPalette.white,
-      primary: colorsPalette.darkGrey,
-    },
+      background: string;
+      primary: string;
+    };
     transparency: {
-      background: colorsPalette.whiteOpacity
-    },
-    transition: '1s',
+      background: string;
+    };
+    transition: string;
+  }
+}
+
+export const lightTheme: DefaultTheme = {
+  colors: {
+    background: colorsPalette.white,
+    primary: colorsPalette.darkGrey,
   },
-  darkTheme: {
-    colors: {
-      background: colorsPalette.darkGrey,
-      primary: colorsPalette.darkViolet,
-    },
-    transparency: {
-      background: colorsPalette.blackOpacity,
-    },
-    transition: '1s',
+  transparency: {
+    background: colorsPalette.whiteOpacity
   },
-} as Themes;
+  transition: '1s',
+};
+
+export const darkTheme: DefaultTheme = {
+  colors: {
+    background: colorsPalette.darkGrey,
+    primary: colorsPalette.darkViolet,
+  },
+  transparency: {
+    background: colorsPalette.blackOpacity,
+  },
+  transition: '1s',
+};

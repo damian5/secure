@@ -13,7 +13,7 @@ const SelectCard = ({options, selectedValue, setValue, onClose}: SelectCardProps
     setValue(e.target.value)
     onClose()
   }
-  
+
   return (
     <CardWrapper>
       <div className="background" onClick={() => onClose()} />
@@ -42,8 +42,7 @@ const SelectCard = ({options, selectedValue, setValue, onClose}: SelectCardProps
           </div>
         ))}
       </div>
-     </CardWrapper> 
-    
+     </CardWrapper>
   )
 }
 
