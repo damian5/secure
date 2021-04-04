@@ -22,6 +22,7 @@ module.exports = {
   },
   "plugins": [
       "react",
+      "rect-hooks",
       "jest"
   ],
   "overrides": [{
@@ -56,12 +57,6 @@ module.exports = {
       "semi": [
           "error",
           "always"
-      ],
-      "@typescript-eslint/interface-name-prefix": [
-          "error",
-          {
-              "prefixWithI": "always"
-          }
       ],
   },
   "settings": {

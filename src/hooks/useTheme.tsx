@@ -1,14 +1,10 @@
-import React, { createContext, useState, useEffect } from "react";
-import { ThemeProvider } from "styled-components";
-import { ThemeProvider as MaterialThemeProvider } from '@material-ui/core/styles';
-import { lightTheme } from 'style/materialUiTheme/light'
-import { darkTheme } from 'style/materialUiTheme/dark'
+import React, { createContext, useState, useEffect } from 'react';
+import { ThemeProvider } from 'styled-components';
 import GlobalStyle from 'style/globalStyle';
-import theme from 'style/theme'
-
+import { lightTheme, darkTheme } from 'style/theme'
 interface ThemeContextProps {
-  themeMode: any;
-  setNewTheme: any;
+  themeMode: string;
+  setNewTheme: () => void;
 }
 
 export const ThemeContext = createContext({} as ThemeContextProps);
@@ -16,33 +12,31 @@ export const ThemeContext = createContext({} as ThemeContextProps);
 const ThemeContextProvider: React.FC = ({ children }) => {
   const { localStorage } = window;
 
-  const [themeMode, setThemeMode] = useState(
-    localStorage.getItem("theme") || "lightTheme"
+  const [themeMode, setThemeMode] = useState<string>(
+    localStorage.getItem('theme') || 'lightTheme'
   );
 
   useEffect(() => {
-    localStorage.setItem("theme", themeMode);
+    localStorage.setItem('theme', themeMode);
   }, [themeMode, localStorage]);
 
   const setNewTheme = () => {
     setThemeMode(prevState => {
       if (prevState === 'lightTheme') {
-        return 'darkTheme'
+        return 'darkTheme';
       } else {
-        return 'lightTheme'
+        return 'lightTheme';
       }
-    })
-  }
+    });
+  };
 
-  // This is necessary since both material UI and styled-components are being used for now
-  const materialTheme = themeMode === 'darkTheme' ? darkTheme : lightTheme;
+  const themeSelector = themeMode === 'lightTheme' ? lightTheme : darkTheme;
+
   return (
     <ThemeContext.Provider value={{ themeMode, setNewTheme }}>
-      <ThemeProvider theme={theme[themeMode]}>
+      <ThemeProvider theme={themeSelector}>
         <GlobalStyle />
-          <MaterialThemeProvider theme={materialTheme}>
-            {children}
-          </MaterialThemeProvider>
+        {children}
       </ThemeProvider>
     </ThemeContext.Provider>
   );

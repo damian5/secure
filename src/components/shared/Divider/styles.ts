@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { Theme } from 'interfaces/theme';
+import { DefaultTheme } from 'styled-components'
 
 interface TitleProps {
-  readonly theme: Theme,
+  readonly theme: DefaultTheme,
   readonly marginTop: number,
   readonly marginBottom: number,
   readonly color: string,
