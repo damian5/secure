@@ -10,6 +10,7 @@ export const WrapForm = styled.form`
   align-items: center;
   overflow-y: auto;
   padding: 100px 90px;
+  /* TO-DO: send screen sizes to its own const file */
   @media (max-width: 768px) {
     padding: 40px 50px;
   }

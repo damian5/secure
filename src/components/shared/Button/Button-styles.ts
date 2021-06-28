@@ -20,10 +20,11 @@ export const StyledButton = styled.button<ButtonProps>`
   cursor: pointer;
   transition: background-color 300ms ease-in-out;
 
-  &:hover {
-    transition: background-color 300ms ease-in-out;
-    background-color: ${({theme}) => theme.commonProps.color.primary};
-    color: ${({theme}) => theme.commonProps.button.activeColor};
+  @media (min-width: 768px) {
+    &:hover {
+      transition: background-color 300ms ease-in-out;
+      background-color: ${({theme}) => theme.commonProps.color.primary};
+      color: ${({theme}) => theme.commonProps.button.activeColor};
+    }
   }
-
 `;
