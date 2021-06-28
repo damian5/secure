@@ -79,7 +79,7 @@ const Settings: FC = () => {
             render={({ handleSubmit, submitting, values }) => (
               <form onSubmit={handleSubmit}>
                 <h2>Sign Up</h2>
-                <TextField type="tel" name="pin" label="Pin" maxLength={4} />
+                <TextField marginBottom={0} type="tel" name="pin" label="Pin" maxLength={4} />
                 <button disabled={submitting} type="submit">
                   Submit
                 </button>

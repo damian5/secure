@@ -80,12 +80,14 @@ const ManageSite = (props: any) => {
             <form onSubmit={(form) => handleSubmit(form)}>
               {site ? <h2>Edit {site?.siteName}</h2> : <h2>Add a new site</h2>}
               <TextField
+                marginBottom={30}
                 showError
                 type="text"
                 name="siteName"
                 label="Site"
               />
               <TextField
+                marginBottom={30}
                 showError
                 type="text"
                 name="userName"
@@ -95,6 +97,7 @@ const ManageSite = (props: any) => {
                 extraFeaureName="Copy"
               />
               <TextField
+                marginBottom={30}
                 showError
                 type={showPassword ? 'text' : 'password'}
                 name="password"
@@ -112,6 +115,7 @@ const ManageSite = (props: any) => {
                 extraFeaureName="Copy"
               />
               <TextField
+                marginBottom={30}
                 showError
                 type="text"
                 showExtraButton={site?.url}

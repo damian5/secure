@@ -16,8 +16,9 @@ const PinCodeContextProvider: FC = ({ children }) => {
 
   const [pinCode, setPinCode] = useState<string>(() => {
     const actualPin = localStorage.getItem(pinCodeKey);
+
     if (actualPin) {
-      return decrypt(localStorage.getItem(pinCodeKey));
+      return decrypt(actualPin);
     }
     return '';
   });
@@ -31,7 +32,7 @@ const PinCodeContextProvider: FC = ({ children }) => {
   };
 
   const disablePinCode = () => {
-    localStorage.setItem(pinCodeKey, undefined);
+    localStorage.removeItem(pinCodeKey);
     setPinCode(undefined);
   };
 

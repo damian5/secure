@@ -12,6 +12,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import { colorsPalette } from 'constant/colors';
 import SortIcon from '@material-ui/icons/Sort';
+
 interface PasswordState {
   isVisible: boolean,
   index: number
@@ -70,11 +71,36 @@ const RenderSites = ({sites, isFavorite}: RenderSitesProps) => {
   }, [editSite]);
 
   let JSXElement = null;
- 
+
   const favoriteButtonStyle = {
-    fill: `${colorsPalette.red}`
+    fill: `${colorsPalette.darkRed}`
   }
-  
+
+
+  const renderSite = ({ siteName, userName, id, password, createdAt, modifiedAt, url, favorite }, index) => (
+    <StyledSite
+      onClick={(e) => handleSiteClick(e, id)}
+      key={index}
+    >
+      <h1>{siteName}</h1>
+      <Divider topSpace={1} bottomSpace={1} height={0.3}/>
+      <p>{userName}</p>
+      <div>
+        <p>{renderPassword(index, password)}</p>
+        <button type="button" onClick={(e) => {handleShowPassword(e, index)}}>
+          Show Password
+        </button>
+      </div>
+      {url && <Divider topSpace={10} bottomSpace={1} height={0.3} />}
+      <p>{url}</p>
+      <Divider topSpace={1} bottomSpace={1} height={0.3}/>
+      <p>Modified at {modifiedAt}</p>
+      <p>Created at {createdAt}</p>
+      <Divider topSpace={1} bottomSpace={1} height={0.3}/>
+      <button className="favorite-button" type="button" onClick={(e) => handleFavorite(e, id)}>{favorite ? <FavoriteIcon style={favoriteButtonStyle}/> : <FavoriteBorder style={favoriteButtonStyle}/>}</button>
+    </StyledSite>
+  )
+
   if(sites?.length > 0) {
     const filteredSites = searchParam || sortParam ? searchAndSort(sites, searchParam, sortParam) : sites
     JSXElement = <>
@@ -85,30 +111,10 @@ const RenderSites = ({sites, isFavorite}: RenderSitesProps) => {
       <SortIcon onClick={() => setShowSort(true)}>Sort</SortIcon>
       <SitesWrapper>
         {
-          filteredSites?.map((site: Site, i: number) => {
+          filteredSites?.map((site: Site, index: number) => {
             const { siteName, userName, id, password, createdAt, modifiedAt, url, favorite } = site;
             return (
-              <StyledSite
-                onClick={(e) => handleSiteClick(e, id)}
-                key={i}
-              >
-                <h1>{siteName}</h1>
-                <Divider topSpace={1} bottomSpace={1} height={0.3}/>
-                <p>{userName}</p>
-                <div>
-                  <p>{renderPassword(i, password)}</p>
-                  <button type="button" onClick={(e) => {handleShowPassword(e, i)}}>
-                    Show Password
-                  </button>
-                </div>
-                {url && <Divider topSpace={10} bottomSpace={1} height={0.3} />}
-                <p>{url}</p>
-                <Divider topSpace={1} bottomSpace={1} height={0.3}/>
-                <p>Modified at {modifiedAt}</p>
-                <p>Created at {createdAt}</p>
-                <Divider topSpace={1} bottomSpace={1} height={0.3}/>
-                <button className="favorite-button" type="button" onClick={(e) => handleFavorite(e, id)}>{favorite ? <FavoriteIcon style={favoriteButtonStyle}/> : <FavoriteBorder style={favoriteButtonStyle}/>}</button>
-              </StyledSite>
+              renderSite({ siteName, userName, id, password, createdAt, modifiedAt, url, favorite }, index)
             )
           })
         }

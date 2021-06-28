@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { fnScale } from 'helpers/scale';
 
 export const CardWrapper = styled.div`
   z-index: 3;
@@ -20,7 +19,7 @@ export const CardWrapper = styled.div`
   .card {
     overflow: scroll;
     background: white;
-    max-height: ${fnScale(200)}px;
+    max-height: 200px;
     width: inherit;
     position: absolute;
     bottom: 0;

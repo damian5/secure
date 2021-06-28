@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { fnScale } from 'helpers/scale';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -20,12 +19,11 @@ export const SitesWrapper = styled.div`
   display: grid;
   grid-gap: 10px;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
 `
 
 export const StyledSite = styled.div`
   border: 1px solid gray;
-  border-radius: ${fnScale(3)}px;
+  border-radius: 3px;
   box-shadow: gray;
   cursor: pointer;
   padding: 10px;

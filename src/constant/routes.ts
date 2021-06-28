@@ -1,11 +1,12 @@
+//replace signin route
 export const routes = Object.freeze({
   signIn: {
     path: '/signin',
     name: 'signin'
   },
   signUp: {
-    path: '/signin',
-    name: 'signin'
+    path: '/signup',
+    name: 'signup'
   },
   passwords: {
     path: '/passwords',
