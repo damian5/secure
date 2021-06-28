@@ -19,26 +19,20 @@ const fontFace = css`
   }
 `
 
-const GlobalStyle = createGlobalStyle<{theme: any}>`
+const GlobalStyle = createGlobalStyle`
   ${({ theme }) => css`
     ${fontFace}
-
-    html {
-      height: 100%;
-      width: 100%;
+    html, body, #root {
+      height: 100%
     }
-
-    #root {
-      min-height: 100%;
-    }
-
     body {
       margin: 0;
-      width: 100%;
+      width: 100vw;
       height: 100%;
       font-family: 'Gotham';
       background: ${theme.colors.background};
       font-weight: 400;
+      font-size: ${theme.commonProps.fontSize.default}px;
       font-style: normal;
       -webkit-user-select: none;
       -moz-user-select: none;
@@ -49,6 +43,7 @@ const GlobalStyle = createGlobalStyle<{theme: any}>`
 
     p {
       font-weight: 600;
+      font-size: ${theme.commonProps.fontSize.default}px;
       color: ${theme.colors.primary};
     }
 
@@ -63,8 +58,6 @@ const GlobalStyle = createGlobalStyle<{theme: any}>`
       height: 70px;
       background: transparent;
       width: 100%;
-  
-
     }
 
 

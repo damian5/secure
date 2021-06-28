@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import { Field } from 'react-final-form';
+import { Field as FinalFormField } from 'react-final-form';
+import { StyledInput, StyledField } from './TextField-styles';
+import ErrorField from 'components/shared/ErrorField';
 
 interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -12,6 +14,8 @@ interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   extraFeaureName?: string;
   maxLength?: number;
   icon?: any;
+  marginBottom: number;
+  isAuth?: boolean;
 }
 
 const TextField: FunctionComponent<TextFieldProps> = ({
@@ -25,14 +29,17 @@ const TextField: FunctionComponent<TextFieldProps> = ({
   extraFeaureName,
   icon,
   maxLength,
+  marginBottom,
+  isAuth,
 }) => (
-  <Field name={name}>
+  <FinalFormField name={name}>
     {({ input, meta }) => (
-      <div>
+      <StyledField marginBottom={marginBottom} >
         {label && <label>{label}</label>}
-        <div>
-          <input
+        <div className="input-wrapper">
+          <StyledInput
             {...input}
+            isAuth={isAuth}
             maxLength={maxLength}
             type={type}
             placeholder={placeholder}
@@ -45,11 +52,11 @@ const TextField: FunctionComponent<TextFieldProps> = ({
           {icon && icon}
         </div>
         {showError && (meta.error || meta.submitError) && meta.touched && (
-          <span>{meta.error || meta.submitError}</span>
+          <ErrorField errorMessage={meta.error || meta.submitError} />
         )}
-      </div>
+      </StyledField>
     )}
-  </Field>
+  </FinalFormField>
 );
 
 export default TextField;

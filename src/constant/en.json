@@ -2,14 +2,20 @@
   "auth": {
     "email": "Email",
     "password": "Passoword",
-    "signIn": "Sign In!"
+    "signIn": "Log In",
+    "newHere": "New here?",
+    "createAnAccount": "Create an Account here!"
   },
   "validation": {
-    "required": "This field is required!",
+    "required": "This can't be empty!",
     "min": "The password must be at least 6 characters long!",
     "invalidEmail": "This email doesn't seem valid",
     "passwordMustMatch": "Passwords must match",
     "invalidPinCode": "The pin is incorrect",
     "minPinLenght": "The pin must be 4 characters long"
+  },
+  "button": {
+    "submit": "Submit",
+    "logIn": "Log In"
   }
 }

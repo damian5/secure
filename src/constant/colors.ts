@@ -1,22 +1,20 @@
 export const colorsPalette = Object.freeze({
   whiteOpacity: 'rgba(255,255,255,0.5)',
   blackOpacity: 'rgba(0, 0, 0,0.5)',
+  transparent: 'transparent',
 
-  white: '#ffffff',
-  darkGrey: '#222222',
-  superDarkGrey: '#191919',
-  darkViolet: '#7E7FFF',
-  black: '#000000',
-  smoothBlue: '#8898AA',
-  lightBlue: '#11cdef',
-  lightRed: '#f53c56',
-  red: '#b00020',
-  lightGrey: '#f7f7f7',
-  lightBlueGrey: '#f7fafc',
-  grey: '#9c9d9fd1',
-  smoothGrey: '#f1f3f9',
-  green: '#2dce98',
-  orange: '#feb969',
-  purple: '#7764e4',
-  greyShadow: '#666666',
+  black: "#000000",
+  white: "#FFFFFF",
+  blackPearl: "#010D13",
+  deepCyanBlue: "#06284F",
+  shipCove: "#78859F",
+  lavender: "#E4E5EC",
+  darkRed: "#880000",
+  goldTips: "#EAB120",
+  apple: "#6AC135",
+  dimGray: "#6F6F6F",
+
+  gradients: {
+    darkAndDarkBlue: 'linear-gradient(#010D13, 80%, #06284F)',
+  }
 });

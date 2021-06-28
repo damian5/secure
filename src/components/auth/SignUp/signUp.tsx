@@ -2,7 +2,7 @@ import React from 'react';
 import { Form } from 'react-final-form';
 import { useFirebaseAuth } from 'hooks/useFirebaseAuth';
 import { Link, withRouter } from 'react-router-dom'
-import { WrapForm } from '../styles';
+import { WrapForm } from '../Auth-styles';
 import TextField from 'components/shared/TextField';
 import * as Yup from 'yup';
 import { validation as validationTexts } from 'constant/en.json';
@@ -32,24 +32,28 @@ const SignUp = () => {
         <WrapForm onSubmit={handleSubmit}>
           <h2>Sign Up</h2>
           <TextField
+            marginBottom={30}
             showError
             type="text"
             name="userName"
             label="Name"
           />
           <TextField
+            marginBottom={30}
             showError
             type="email"
             name="email"
             label="Email"
           />
           <TextField
+            marginBottom={30}
             showError
             type="password"
             name="password"
             label="password"
           />
           <TextField
+            marginBottom={30}
             showError
             type="password"
             name="repeatPassword"

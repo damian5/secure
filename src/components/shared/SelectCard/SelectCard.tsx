@@ -18,23 +18,6 @@ const SelectCard = ({options, selectedValue, setValue, onClose}: SelectCardProps
     <CardWrapper>
       <div className="background" onClick={() => onClose()} />
       <div className="card">
-        <div>h</div>
-        <div>h</div>
-
-        <div>h</div>
-
-        <div>h</div>
-        <div>h</div>
-        <div>h</div>
-        <div>h</div>
-        <div>h</div>
-
-        <div>h</div>
-        <div>h</div>
-        <div>h</div>
-        <div>h</div>
-        <div>h</div>
-
         {options.map((option, i) => (
           <div key={i}>
           <input onChange={(e) => toggle(e)} type="radio" id={option} name={option} value={option} checked={option === selectedValue} />
