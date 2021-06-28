@@ -1,7 +1,7 @@
 import React, { useCallback, FC } from 'react';
 
 import { useFirebaseAuth } from 'hooks/useFirebaseAuth';
-import SignIn from './SignIn';
+import SignIn from './signIn';
 import { SignInValues } from 'interfaces/auth';
 
 const SignInContainer: FC = () => {
